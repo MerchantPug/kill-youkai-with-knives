@@ -7,9 +7,6 @@
     "authors": [
         "${mod_author}"
     ],
-    "contributors": [
-        "${fabric_mod_contributors}"
-    ],
     "contact": {
         "homepage": "${homepage}",
         "issues": "https://github.com/${sources}/issues",
@@ -20,10 +17,10 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "house.greenhouse.examplemod.ExampleModFabric"
+            "net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnivesFabric"
         ],
         "preLaunch": [
-            "house.greenhouse.examplemod.ExampleModFabricPre"
+            "net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnivesFabricPre"
         ]
     },
     "mixins": [

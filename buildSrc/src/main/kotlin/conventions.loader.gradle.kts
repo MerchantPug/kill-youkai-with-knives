@@ -1,4 +1,4 @@
-import house.greenhouse.examplemod.gradle.Properties
+import net.merchantpug.killyoukaiwithknives.gradle.Properties
 
 plugins {
     id("conventions.common")

@@ -1,5 +1,5 @@
-import house.greenhouse.examplemod.gradle.Properties
-import house.greenhouse.examplemod.gradle.Versions
+import net.merchantpug.killyoukaiwithknives.gradle.Properties
+import net.merchantpug.killyoukaiwithknives.gradle.Versions
 import net.fabricmc.loom.task.RemapJarTask
 import org.gradle.jvm.tasks.Jar
 

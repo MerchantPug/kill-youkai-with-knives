@@ -1,5 +1,5 @@
-import house.greenhouse.examplemod.gradle.Properties
-import house.greenhouse.examplemod.gradle.Versions
+import net.merchantpug.killyoukaiwithknives.gradle.Properties
+import net.merchantpug.killyoukaiwithknives.gradle.Versions
 
 plugins {
     base
@@ -95,8 +95,6 @@ tasks {
         "fabric_loader_range" to Versions.FABRIC_LOADER_RANGE,
         "mod_name" to Properties.MOD_NAME,
         "mod_author" to Properties.MOD_AUTHOR,
-        "neoforge_mod_contributors" to Properties.MOD_CONTRIBUTORS.joinToString(),
-        "fabric_mod_contributors" to Properties.MOD_CONTRIBUTORS.joinToString(separator = "\",\n\t\t\""),
         "mod_id" to Properties.MOD_ID,
         "mod_license" to Properties.LICENSE,
         "mod_description" to Properties.DESCRIPTION,
