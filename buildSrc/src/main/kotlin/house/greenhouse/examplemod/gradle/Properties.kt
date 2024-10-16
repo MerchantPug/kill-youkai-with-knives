@@ -1,7 +1,7 @@
 package house.greenhouse.examplemod.gradle
 
 object Properties {
-    const val GROUP = "dev.greenhouseteam"
+    const val GROUP = "house.greenhouse"
     const val MOD_NAME = "Example Mod"
     const val ARCHIVES_NAME = "example-mod"
     const val MOD_ID = "examplemod"
