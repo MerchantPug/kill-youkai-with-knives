@@ -1,10 +1,12 @@
 package net.merchantpug.killyoukaiwithknives.entity;
 
+import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
+import net.merchantpug.killyoukaiwithknives.mixin.accessor.ProjectileAccessor;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiItems;
+import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiDamageTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
 public class MagicKnifeEntity extends AbstractArrow {
+    private boolean hasHitOwner = false;
+
     public MagicKnifeEntity(EntityType<MagicKnifeEntity> entityType, Level level) {
         super(entityType, level);
     }
@@ -37,24 +41,36 @@ public class MagicKnifeEntity extends AbstractArrow {
             return;
 
         Entity entity = result.getEntity();
-        float f = 8.0F;
-        Entity entity1 = this.getOwner();
-        DamageSource damagesource = this.damageSources().trident(this, entity1 == null ? this : entity);
-        if (this.level() instanceof ServerLevel serverlevel) {
-            f = EnchantmentHelper.modifyDamage(serverlevel, getWeaponItem(), entity, damagesource, f);
+        float f = 4.0F;
+        Entity owner = getOwner();
+
+        if (entity == owner && ((ProjectileAccessor)this).killyoukaiwithknives$hasLeftOwner()) {
+            if (owner instanceof LivingEntity living && !hasHitOwner) {
+                tryRepairKnivesInInventory(living);
+                hasHitOwner = true;
+            }
+            return;
         }
 
-        if (entity.hurt(damagesource, f)) {
+        DamageSource damageSource = damageSources().source(KillYoukaiDamageTypes.MAGIC_KNIVES, this, owner == null ? this : owner);
+        if (KillYoukaiWithKnives.getHelper().previouslyHurtByKnives(entity, owner))
+            damageSource = damageSources().source(KillYoukaiDamageTypes.COOLDOWN_BYPASSING_MAGIC_KNIVES, this, owner);
+
+        if (level() instanceof ServerLevel serverlevel) {
+            f = EnchantmentHelper.modifyDamage(serverlevel, getWeaponItem(), entity, damageSource, f);
+        }
+
+        if (entity.hurt(damageSource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }
 
             if (this.level() instanceof ServerLevel serverLevel) {
-                EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damagesource, this.getWeaponItem());
+                EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damageSource, this.getWeaponItem());
             }
 
             if (entity instanceof LivingEntity livingentity) {
-                doKnockback(livingentity, damagesource);
+                doKnockback(livingentity, damageSource);
                 doPostHurtEffects(livingentity);
             }
         }
@@ -65,11 +81,13 @@ public class MagicKnifeEntity extends AbstractArrow {
 
     @Override
     public void playerTouch(Player entity) {
-        if (!this.level().isClientSide && (this.inGround || this.isNoPhysics()) && this.shakeTime <= 0)
+        if (!level().isClientSide && (inGround || isNoPhysics()) && shakeTime <= 0)
             tryRepairKnivesInInventory(entity);
     }
 
     private boolean tryRepairKnivesInInventory(LivingEntity living) {
+        if (!living.is(getOwner()))
+            return false;
         for (ItemStack stack : living.getAllSlots()) {
             if (!stack.isEmpty() && stack.isDamaged() && ItemStack.isSameItem(new ItemStack(KillYoukaiItems.MAGIC_KNIVES), stack)) {
                 // TODO: Change the sound to a new one.
@@ -85,7 +103,7 @@ public class MagicKnifeEntity extends AbstractArrow {
 
     @Override
     public ItemStack getWeaponItem() {
-        return this.getPickupItemStackOrigin();
+        return getPickupItemStackOrigin();
     }
 
     @Override

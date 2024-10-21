@@ -1,3 +1,6 @@
 {
-  "item.killyoukaiwithknives.magic_knives": "Magic Knives"
+  "item.killyoukaiwithknives.magic_knives": "Magic Knives",
+  "entity.killyoukaiwithknives.magic_knife": "Magic Knife",
+  "death.attack.magicKnives": "%1$s was stabbed by %2$s",
+  "death.attack.magicKnives.item": "%1$s was stabbed by %2$s with %3$s"
 }

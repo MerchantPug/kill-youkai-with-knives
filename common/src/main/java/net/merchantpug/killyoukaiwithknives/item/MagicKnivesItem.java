@@ -42,9 +42,9 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
             List<ItemStack> stacks = new ArrayList<>();
             for (int i = 0; i < 4; ++i)
                 stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
-            shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 4.0F, 0.0F, true, null);
+            shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 2.0F, 0.0F, true, null);
             // FIXME: Change sound!
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F));
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, level.getRandom().nextFloat() * 0.4F + 1.0F);
             player.awardStat(Stats.ITEM_USED.get(this));
             player.getCooldowns().addCooldown(this, 20);
         }

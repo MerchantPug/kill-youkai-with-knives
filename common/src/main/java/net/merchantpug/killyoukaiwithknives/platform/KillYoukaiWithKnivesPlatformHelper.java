@@ -1,5 +1,7 @@
 package net.merchantpug.killyoukaiwithknives.platform;
 
+import net.minecraft.world.entity.Entity;
+
 public interface KillYoukaiWithKnivesPlatformHelper {
 
     /**
@@ -23,4 +25,6 @@ public interface KillYoukaiWithKnivesPlatformHelper {
      * @return True if in a development environment, false otherwise.
      */
     boolean isDevelopmentEnvironment();
+
+    boolean previouslyHurtByKnives(Entity entity, Entity directAttacker);
 }
