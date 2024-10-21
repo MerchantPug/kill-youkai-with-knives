@@ -10,12 +10,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
 
-public class Timestop extends Entity {
-    private static final EntityDataAccessor<Float> RADIUS = SynchedEntityData.defineId(Timestop.class, EntityDataSerializers.FLOAT);
+public class TimestasisEntity extends Entity {
+    private static final EntityDataAccessor<Float> RADIUS = SynchedEntityData.defineId(TimestasisEntity.class, EntityDataSerializers.FLOAT);
     private float increasePerTick = 0.3F;
     private float maxSize = 5.0F;
 
-    public Timestop(EntityType<?> entityType, Level level) {
+    public TimestasisEntity(EntityType<TimestasisEntity> entityType, Level level) {
         super(entityType, level);
         noPhysics = true;
     }

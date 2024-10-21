@@ -19,6 +19,9 @@
         "main": [
             "net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnivesFabric"
         ],
+        "client": [
+            "net.merchantpug.killyoukaiwithknives.client.KillYoukaiWithKnivesFabricClient"
+        ],
         "preLaunch": [
             "net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnivesFabricPre"
         ]

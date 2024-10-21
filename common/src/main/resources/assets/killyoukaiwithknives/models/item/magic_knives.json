@@ -1,0 +1,36 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "killyoukaiwithknives:item/magic_knives"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [ 0, 0, -30 ],
+			"translation": [ 0, 2.5, 1 ],
+			"scale": [ 0.4, 0.4, 0.4 ]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [ 0, -180, 30 ],
+			"translation": [ 0, 2.5, 1 ],
+			"scale": [ 0.4, 0.4, 0.4 ]
+		},
+		"firstperson_righthand": {
+			"rotation": [ -15, -80, 0 ],
+			"translation": [ 1.5, 2.75, 0 ],
+			"scale": [ 0.6, 0.6, 0.6 ]
+		},
+		"firstperson_lefthand": {
+			"rotation": [ -15, 100, 0 ],
+			"translation": [ 1.5, 2.75, 0 ],
+			"scale": [ 0.6, 0.6, 0.6 ]
+		},
+		"ground": {
+			"translation": [ 0, 3, 0 ],
+			"scale": [ 0.8, 0.8, 0.8 ]
+		},
+		"head": {
+			"rotation": [ 0, 0, -32 ],
+			"translation": [ -0.75, 6.75, 0 ]
+		}
+	}
+}
