@@ -12,6 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,6 +44,11 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
             for (int i = 0; i < 4; ++i)
                 if (stack.getDamageValue() < stack.getMaxDamage() - i)
                     stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
+
+            int projectileCount = EnchantmentHelper.processProjectileCount(serverLevel, stack, player, 0);
+            for (int i = 0; i < projectileCount; ++i)
+                stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
+
             shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 2.0F, 0.0F, true, null);
             // FIXME: Change sound!
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, level.getRandom().nextFloat() * 0.4F + 1.0F);

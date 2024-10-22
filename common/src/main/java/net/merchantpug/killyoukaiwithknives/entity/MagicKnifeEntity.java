@@ -6,6 +6,7 @@ import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiItems;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiDamageTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import org.jetbrains.annotations.NotNull;
 
 public class MagicKnifeEntity extends AbstractArrow {
     private boolean hasHitOwner = false;
@@ -80,6 +82,21 @@ public class MagicKnifeEntity extends AbstractArrow {
     }
 
     @Override
+    public ItemStack getWeaponItem() {
+        return getPickupItemStackOrigin();
+    }
+
+    @Override
+    protected ItemStack getDefaultPickupItem() {
+        return new ItemStack(KillYoukaiItems.MAGIC_KNIVES);
+    }
+
+    @Override
+    protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
+        return SoundEvents.TRIDENT_HIT_GROUND;
+    }
+
+    @Override
     public void playerTouch(Player entity) {
         if (!level().isClientSide && (inGround || isNoPhysics()) && shakeTime <= 0)
             tryRepairKnivesInInventory(entity);
@@ -99,15 +116,5 @@ public class MagicKnifeEntity extends AbstractArrow {
             }
         }
         return false;
-    }
-
-    @Override
-    public ItemStack getWeaponItem() {
-        return getPickupItemStackOrigin();
-    }
-
-    @Override
-    protected ItemStack getDefaultPickupItem() {
-        return new ItemStack(KillYoukaiItems.MAGIC_KNIVES);
     }
 }
