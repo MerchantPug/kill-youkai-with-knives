@@ -41,7 +41,8 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
             ServerLevel serverLevel = (ServerLevel) level;
             List<ItemStack> stacks = new ArrayList<>();
             for (int i = 0; i < 4; ++i)
-                stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
+                if (stack.getDamageValue() < stack.getMaxDamage() - i)
+                    stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
             shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 2.0F, 0.0F, true, null);
             // FIXME: Change sound!
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, level.getRandom().nextFloat() * 0.4F + 1.0F);
