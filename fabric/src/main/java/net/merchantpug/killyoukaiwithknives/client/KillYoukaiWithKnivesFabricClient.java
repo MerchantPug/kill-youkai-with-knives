@@ -20,6 +20,6 @@ public class KillYoukaiWithKnivesFabricClient implements ClientModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client ->
                 TimestasisRenderUtil.init());
-        WorldRenderEvents.LAST.register(context -> TimestasisRenderUtil.renderTimestasisedAreas(context.world(), context.matrixStack(), context.consumers()));
+        WorldRenderEvents.LAST.register(context -> TimestasisRenderUtil.renderTimestasisedAreas(context.world(), context.matrixStack()));
     }
 }
