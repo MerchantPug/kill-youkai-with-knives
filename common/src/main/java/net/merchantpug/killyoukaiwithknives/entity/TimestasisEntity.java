@@ -28,8 +28,10 @@ public class TimestasisEntity extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         setRadius(tag.getFloat("radius"));
-        increasePerTick = tag.getFloat("increase_per_tick");
-        maxSize = tag.getFloat("max_size");
+        if (tag.contains("increase_per_tick"))
+            increasePerTick = tag.getFloat("increase_per_tick");
+        if (tag.contains("max_size"))
+            maxSize = tag.getFloat("max_size");
     }
 
     @Override
@@ -44,7 +46,8 @@ public class TimestasisEntity extends Entity {
         if (getRadius() < maxSize) {
             setRadius(Math.min(getRadius() + increasePerTick, maxSize));
             setBoundingBox(AABB.ofSize(this.position(), getRadius(), getRadius(), getRadius()));
-        }
+        } else
+            discard();
     }
 
     public float getRadius() {

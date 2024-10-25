@@ -1,15 +1,18 @@
 package net.merchantpug.killyoukaiwithknives;
 
 
+import net.merchantpug.killyoukaiwithknives.client.util.TimestasisRenderUtil;
 import net.merchantpug.killyoukaiwithknives.platform.KillYoukaiWithKnivesPlatformHelperNeoForge;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiAttachments;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiTags;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 @Mod(KillYoukaiWithKnives.MOD_ID)
@@ -31,6 +34,12 @@ public class KillYoukaiWithKnivesNeoForge {
                 entity.setData(KillYoukaiAttachments.PREVIOUS_KNIVES_ATTACKER, source.getEntity().getUUID());
             else
                 entity.removeData(KillYoukaiAttachments.PREVIOUS_KNIVES_ATTACKER);
+        }
+
+        @SubscribeEvent
+        public static void onRenderLevel(RenderLevelStageEvent event) {
+            if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL)
+                TimestasisRenderUtil.renderTimestasisedAreas(Minecraft.getInstance().level, event.getPoseStack());
         }
     }
 }
