@@ -25,7 +25,7 @@ public class MagicKnifeRenderer extends EntityRenderer<MagicKnifeEntity> {
         stack.pushPose();
         stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) + 90.0F));
         stack.mulPose(Axis.ZN.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot()) + 185.0F));
-        model.renderToBuffer(stack, source.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY);
+        model.renderToBuffer(stack, source.getBuffer(RenderType.entityTranslucent(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY);
         stack.popPose();
         super.render(entity, entityYaw, partialTicks, stack, source, packedLight);
     }
