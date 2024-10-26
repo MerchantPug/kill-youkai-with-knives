@@ -12,8 +12,8 @@ import net.minecraft.world.phys.AABB;
 
 public class TimestasisEntity extends Entity {
     private static final EntityDataAccessor<Float> RADIUS = SynchedEntityData.defineId(TimestasisEntity.class, EntityDataSerializers.FLOAT);
-    private float increasePerTick = 0.3F;
-    private float maxSize = 5.0F;
+    private float increasePerTick = 0.1F;
+    private float maxSize = 8.0F;
 
     public TimestasisEntity(EntityType<TimestasisEntity> entityType, Level level) {
         super(entityType, level);

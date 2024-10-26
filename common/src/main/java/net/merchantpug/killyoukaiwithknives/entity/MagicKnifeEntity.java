@@ -43,7 +43,7 @@ public class MagicKnifeEntity extends AbstractArrow {
             return;
 
         Entity entity = result.getEntity();
-        float f = 4.0F;
+        float f = 2.0F;
         Entity owner = getOwner();
 
         if (entity == owner && ((ProjectileAccessor)this).killyoukaiwithknives$hasLeftOwner()) {
@@ -68,7 +68,7 @@ public class MagicKnifeEntity extends AbstractArrow {
             }
 
             if (this.level() instanceof ServerLevel serverLevel) {
-                EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damageSource, this.getWeaponItem());
+                EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damageSource, getWeaponItem());
             }
 
             if (entity instanceof LivingEntity livingentity) {
