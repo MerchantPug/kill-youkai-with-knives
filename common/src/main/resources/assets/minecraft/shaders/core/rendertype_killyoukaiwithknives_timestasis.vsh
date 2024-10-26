@@ -1,15 +1,14 @@
 #version 150
 
 in vec3 Position;
-in vec2 UV0;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
 
-out vec2 texCoord;
+out vec4 vertCoord;
 
 void main() {
-    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
-
-    texCoord = UV0;
+    vec4 coord = ProjMat * ModelViewMat * vec4(Position, 1.0);
+    gl_Position = coord;
+    vertCoord = coord;
 }
