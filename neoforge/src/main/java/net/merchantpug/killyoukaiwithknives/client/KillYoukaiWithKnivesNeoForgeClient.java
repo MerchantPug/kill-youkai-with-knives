@@ -8,6 +8,7 @@ import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
@@ -16,6 +17,11 @@ import net.minecraft.client.Minecraft;
 public class KillYoukaiWithKnivesNeoForgeClient {
     @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = KillYoukaiWithKnives.MOD_ID, value = Dist.CLIENT)
     public static class ModEvents {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            TimestasisRenderUtil.init();
+        }
+
         @SubscribeEvent
         public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(MagicKnifeModel.LAYER_LOCATION, MagicKnifeModel::createBodyLayer);
