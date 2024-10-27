@@ -13,7 +13,7 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
 import net.minecraft.client.Minecraft;
 
-public class KillYoukaiWithKnivesNeoForge {
+public class KillYoukaiWithKnivesNeoForgeClient {
     @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = KillYoukaiWithKnives.MOD_ID, value = Dist.CLIENT)
     public static class ModEvents {
         @SubscribeEvent

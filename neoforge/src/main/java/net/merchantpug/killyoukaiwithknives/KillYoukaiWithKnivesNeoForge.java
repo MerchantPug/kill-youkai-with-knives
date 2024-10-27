@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives;
 
 
+import net.merchantpug.killyoukaiwithknives.entity.TimestasisEntity;
 import net.merchantpug.killyoukaiwithknives.network.clientbound.SyncTimestasisStateClientboundPacket;
 import net.merchantpug.killyoukaiwithknives.platform.KillYoukaiWithKnivesPlatformHelperNeoForge;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiAttachments;
@@ -11,6 +12,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
 @Mod(KillYoukaiWithKnives.MOD_ID)
@@ -19,6 +21,15 @@ public class KillYoukaiWithKnivesNeoForge {
     public KillYoukaiWithKnivesNeoForge(IEventBus eventBus) {
         KillYoukaiWithKnives.init();
         KillYoukaiWithKnives.setHelper(new KillYoukaiWithKnivesPlatformHelperNeoForge());
+    }
+
+    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = KillYoukaiWithKnives.MOD_ID)
+    public static class ModEvents {
+        @SubscribeEvent
+        public static void registerPackets(RegisterPayloadHandlersEvent event) {
+            event.registrar("1.0.0")
+                    .playToClient(SyncTimestasisStateClientboundPacket.TYPE, SyncTimestasisStateClientboundPacket.STREAM_CODEC, (packet, context) -> packet.handle());
+        }
     }
 
     @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME, modid = KillYoukaiWithKnives.MOD_ID)
@@ -35,9 +46,8 @@ public class KillYoukaiWithKnivesNeoForge {
         }
 
         @SubscribeEvent
-        public static void registerPackets(RegisterPayloadHandlersEvent event) {
-            event.registrar("1.0.0")
-                    .playToClient(SyncTimestasisStateClientboundPacket.TYPE, SyncTimestasisStateClientboundPacket.STREAM_CODEC, (packet, context) -> packet.handle());
+        public static void onEntityTick(EntityTickEvent.Post event) {
+            TimestasisEntity.runEntityLogic(event.getEntity());
         }
     }
 }

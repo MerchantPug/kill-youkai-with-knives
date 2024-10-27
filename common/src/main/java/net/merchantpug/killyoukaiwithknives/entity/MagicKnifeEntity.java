@@ -100,7 +100,7 @@ public class MagicKnifeEntity extends AbstractArrow {
                     TimestasisEntity timestasis = SummonTimestasisEffect.summonTimestasis(serverLevel, this, entity, damageSource);
                     if (timestasis == null)
                         return;
-                    level().getEntitiesOfClass(MagicKnifeEntity.class, timestasis.getBoundingBox()).forEach(magicKnifeEntity -> {
+                    level().getEntitiesOfClass(MagicKnifeEntity.class, timestasis.getBoundingBox().inflate(8.0F, 8.0F, 8.0F)).forEach(magicKnifeEntity -> {
                         magicKnifeEntity.canCreateTimestasis = false;
                         magicKnifeEntity.affectedByTimestasis = false;
                     });
@@ -155,8 +155,8 @@ public class MagicKnifeEntity extends AbstractArrow {
     private boolean tryRepairKnivesInInventory(LivingEntity living) {
         if (!living.is(getOwner()))
             return false;
-        for (ItemStack stack : living.getAllSlots()) {
-            if (!stack.isEmpty() && stack.isDamaged() && ItemStack.isSameItem(new ItemStack(KillYoukaiItems.MAGIC_KNIVES), stack)) {
+        for (ItemStack stack : living.getHandSlots()) {
+            if (!stack.isEmpty() && (living instanceof Player player && player.isCreative() || stack.isDamaged()) && ItemStack.isSameItem(new ItemStack(KillYoukaiItems.MAGIC_KNIVES), stack)) {
                 // TODO: Change the sound to a new one.
                 level().playSound(null, living, SoundEvents.ITEM_PICKUP, living.getSoundSource(),1.0F, 1.2F - living.getRandom().nextFloat() * 0.6F);
                 discard();
