@@ -50,15 +50,16 @@ public class KillYoukaiWithKnivesPlatformHelperFabric implements KillYoukaiWithK
 
     @Override
     public void setTimestasised(Entity entity, boolean value, @Nullable Vec3 pos) {
+        if (!entity.level().isClientSide())
+            sendTrackingClientboundPacket(entity, new SyncTimestasisStateClientboundPacket(entity.getId(), value, Optional.ofNullable(pos)));
         if (!value) {
             entity.removeAttached(KillYoukaiAttachments.IS_TIMESTASISED);
             entity.removeAttached(KillYoukaiAttachments.TIMESTASIS_POSITION);
+            return;
         }
         entity.setAttached(KillYoukaiAttachments.IS_TIMESTASISED, value);
         if (pos != null)
             entity.setAttached(KillYoukaiAttachments.TIMESTASIS_POSITION, pos);
-        if (!entity.level().isClientSide())
-            sendTrackingClientboundPacket(entity, new SyncTimestasisStateClientboundPacket(entity.getId(), value, Optional.ofNullable(pos)));
     }
 
     @Override

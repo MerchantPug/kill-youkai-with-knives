@@ -90,8 +90,11 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     }
 
     public static void runEntityLogic(Entity entity) {
-        if (entity.level().isClientSide() || entity instanceof TimestasisEntity || entity instanceof MagicKnifeEntity magicKnifeEntity && !magicKnifeEntity.affectedByTimestasis)
+        if (entity.level().isClientSide() || entity instanceof TimestasisEntity || entity instanceof MagicKnifeEntity magicKnifeEntity && !magicKnifeEntity.affectedByTimestasis) {
+            if (!entity.level().isClientSide() && KillYoukaiWithKnives.getHelper().isTimestasised(entity))
+                TimestasisEntity.removeEntityEffects(entity);
             return;
+        }
         List<TimestasisEntity> timestasisEntities = entity.level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).stream().filter(e -> (e.getOwner() == null || !entity.is(e.getOwner()))).toList();
 
         if (!timestasisEntities.isEmpty() && !KillYoukaiWithKnives.getHelper().isTimestasised(entity))
