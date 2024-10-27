@@ -73,26 +73,29 @@ public class TimestasisRenderUtil {
 
     public static void renderTimestasisedAreas(ClientLevel level, PoseStack pose, Matrix4f projection,
                                                Matrix4f position, Camera camera) {
-        ((ClientLevelAccessor) level).killyoukaiwithknives$invokeGetEntities()
-            .get(EntityTypeTest.forClass(TimestasisEntity.class), entity -> {
-                render(entity, level, pose, projection, position, camera);
-                return AbortableIterationConsumer.Continuation.CONTINUE;
-            });
-    }
-
-    private static void render(TimestasisEntity entity, ClientLevel level, PoseStack pose, Matrix4f projection,
-                               Matrix4f position, Camera camera) {
-        // blit the main buffer to our aux buffer
-        resize(auxTarget);
-        copy(minecraft.getMainRenderTarget(), auxTarget);
-
         RenderSystem.setProjectionMatrix(projection, VertexSorting.DISTANCE_TO_ORIGIN);
 
         pose.pushPose();
         pose.mulPose(position);
         Vec3 camPos = camera.getPosition();
+        pose.translate(-camPos.x, -camPos.y, -camPos.z);
 
-        pose.translate(entity.getX() - camPos.x, entity.getY() - camPos.y, entity.getZ() - camPos.z);
+        // blit the main buffer to our aux buffer
+        resize(auxTarget);
+        copy(minecraft.getMainRenderTarget(), auxTarget);
+
+        ((ClientLevelAccessor) level).killyoukaiwithknives$invokeGetEntities()
+            .get(EntityTypeTest.forClass(TimestasisEntity.class), entity -> {
+                render(entity, pose);
+                return AbortableIterationConsumer.Continuation.CONTINUE;
+            });
+
+        pose.popPose();
+    }
+
+    private static void render(TimestasisEntity entity, PoseStack pose) {
+        pose.pushPose();
+        pose.translate(entity.getX(), entity.getY(), entity.getZ());
         pose.scale(entity.getRadius(), entity.getRadius(), entity.getRadius());
         pose.translate(-0.5f, -0.5f, -0.5f);
 
