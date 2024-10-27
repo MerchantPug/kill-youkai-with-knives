@@ -11,9 +11,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.item.enchantment.effects.AddValue;
 
 public class KillYoukaiEnchantments {
+    public static final ResourceKey<Enchantment> SCATTER = ResourceKey.create(Registries.ENCHANTMENT, KillYoukaiWithKnives.asResource("scatter"));
     public static final ResourceKey<Enchantment> TIMESTASIS = ResourceKey.create(Registries.ENCHANTMENT, KillYoukaiWithKnives.asResource("timestasis"));
 
     public static void bootstrap(BootstrapContext<Enchantment> context) {
@@ -21,17 +24,31 @@ public class KillYoukaiEnchantments {
 
         HolderSet<Item> magicKnivesEnchantable = items.getOrThrow(KillYoukaiTags.Items.MAGIC_KNIVES_ENCHANTABLE);
 
-        Enchantment timestasis = Enchantment.enchantment(
+        Enchantment scatter = Enchantment.enchantment(
                 Enchantment.definition(magicKnivesEnchantable,
-                        5,
-                        2,
-                        Enchantment.dynamicCost(12, 7),
-                        Enchantment.constantCost(50),
+                        3,
+                        3,
+                        Enchantment.dynamicCost(2, 7),
+                        Enchantment.constantCost(35),
                         2,
                         EquipmentSlotGroup.HAND)
                 )
+                .withEffect(EnchantmentEffectComponents.PROJECTILE_COUNT, new AddValue(LevelBasedValue.perLevel(2.0F, 1.0F)))
+                .withEffect(EnchantmentEffectComponents.PROJECTILE_SPREAD, new AddValue(LevelBasedValue.perLevel(6.0F, 3.0F)))
+                .build(SCATTER.location());
+        Enchantment timestasis = Enchantment.enchantment(
+                        Enchantment.definition(magicKnivesEnchantable,
+                                5,
+                                2,
+                                Enchantment.dynamicCost(12, 7),
+                                Enchantment.constantCost(50),
+                                2,
+                                EquipmentSlotGroup.HAND)
+                )
                 .withEffect(KillYoukaiEnchantmentEffectComponents.SUMMON_TIMESTASIS, new SummonTimestasisEffect(LevelBasedValue.constant(0.25F), LevelBasedValue.constant(12.0F), LevelBasedValue.perLevel(120, 60)))
                 .build(TIMESTASIS.location());
+
+        context.register(SCATTER, scatter);
         context.register(TIMESTASIS, timestasis);
     }
 }

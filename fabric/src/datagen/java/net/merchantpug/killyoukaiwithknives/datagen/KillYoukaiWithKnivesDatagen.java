@@ -79,6 +79,11 @@ public class KillYoukaiWithKnivesDatagen implements DataGeneratorEntrypoint {
                     .add(
                             KillYoukaiDamageTypes.COOLDOWN_BYPASSING_MAGIC_KNIVES
                     );
+            getOrCreateTagBuilder(DamageTypeTags.IS_PROJECTILE)
+                    .add(
+                            KillYoukaiDamageTypes.MAGIC_KNIVES,
+                            KillYoukaiDamageTypes.COOLDOWN_BYPASSING_MAGIC_KNIVES
+                    );
             getOrCreateTagBuilder(KillYoukaiTags.DamageTypes.KNIVES_BYPASS_COOLDOWN_AFTER)
                     .add(
                             KillYoukaiDamageTypes.MAGIC_KNIVES,
@@ -94,8 +99,14 @@ public class KillYoukaiWithKnivesDatagen implements DataGeneratorEntrypoint {
 
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup) {
+            getOrCreateTagBuilder(EnchantmentTags.TOOLTIP_ORDER)
+                    .add(
+                            KillYoukaiEnchantments.TIMESTASIS,
+                            KillYoukaiEnchantments.SCATTER
+                    );
             getOrCreateTagBuilder(EnchantmentTags.NON_TREASURE)
                     .add(
+                            KillYoukaiEnchantments.SCATTER,
                             KillYoukaiEnchantments.TIMESTASIS
                     );
         }

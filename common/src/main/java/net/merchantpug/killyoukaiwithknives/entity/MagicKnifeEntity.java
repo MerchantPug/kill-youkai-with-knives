@@ -70,7 +70,7 @@ public class MagicKnifeEntity extends AbstractArrow {
             return;
 
         Entity entity = result.getEntity();
-        float f = 2.0F;
+        float f = 1.0F;
         Entity owner = getOwner();
 
         if (entity == owner && ((ProjectileAccessor)this).killyoukaiwithknives$hasLeftOwner()) {

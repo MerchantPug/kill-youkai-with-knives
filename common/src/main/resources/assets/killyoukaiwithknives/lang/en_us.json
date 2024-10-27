@@ -5,5 +5,7 @@
   "death.attack.magicKnives.item": "%1$s was stabbed by %2$s with %3$s",
 
   "enchantment.killyoukaiwithknives.timestasis": "Timestasis",
-  "enchantment.killyoukaiwithknives.timestasis.desc": "Creates an area where time is slowed down upon hitting an entity."
+  "enchantment.killyoukaiwithknives.timestasis.desc": "Creates an area where time is slowed down upon hitting an entity.",
+  "enchantment.killyoukaiwithknives.scatter": "Scatter",
+  "enchantment.killyoukaiwithknives.scatter.desc": "Throws additional and scatters knives from this item."
 }

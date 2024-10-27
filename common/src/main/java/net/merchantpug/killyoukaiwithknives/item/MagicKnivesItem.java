@@ -61,15 +61,15 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
             ItemStack stack = player.getItemInHand(hand);
             ServerLevel serverLevel = (ServerLevel) level;
             List<ItemStack> stacks = new ArrayList<>();
-            for (int i = 0; i < 4; ++i)
-                if (stack.getDamageValue() < stack.getMaxDamage() - i)
+            for (int i = 0; i < 3; ++i)
+                if (stack.getDamageValue() < stack.getMaxDamage() - i - 1)
                     stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
 
             int projectileCount = EnchantmentHelper.processProjectileCount(serverLevel, stack, player, 0);
             for (int i = 0; i < projectileCount; ++i)
                 stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
 
-            shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 2.0F, 0.0F, true, null);
+            shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 2.0F, 8.0F, false, null);
             // FIXME: Change sound!
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, level.getRandom().nextFloat() * 0.4F + 1.0F);
             player.awardStat(Stats.ITEM_USED.get(this));
@@ -90,7 +90,6 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
 
     @Override
     protected void shootProjectile(LivingEntity livingEntity, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity livingEntity1) {
-        projectile.setPos(projectile.position().offsetRandom(projectile.getRandom(), 1.0f));
         projectile.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot() + angle, 0.0F, velocity, inaccuracy);
     }
 

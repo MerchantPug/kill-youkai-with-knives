@@ -73,16 +73,16 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         if (level().isClientSide)
             return;
         if (tickCount > lifespan) {
-            affectedEntities.forEach(this::removeEntityEffects);
+            affectedEntities.forEach(TimestasisEntity::removeEntityEffects);
             discard();
             return;
         }
 
         List<Entity> currentlyAffected = level().getEntitiesOfClass(Entity.class, getBoundingBox()).stream().filter(entity -> (!(entity instanceof MagicKnifeEntity magicKnifeEntity) || magicKnifeEntity.affectedByTimestasis) && (getOwner() == null || !entity.is(getOwner()))).toList();
 
-        affectedEntities.stream().filter(living -> !currentlyAffected.contains(living)).forEach(this::removeEntityEffects);
+        affectedEntities.stream().filter(living -> !currentlyAffected.contains(living)).forEach(TimestasisEntity::removeEntityEffects);
         affectedEntities = currentlyAffected;
-        affectedEntities.forEach(this::modifyEntities);
+        affectedEntities.forEach(TimestasisEntity::modifyEntities);
 
         if (tickCount < 3) {
             setRadius(Math.max(0, getRadius() - 1.0F));
@@ -92,8 +92,9 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         }
     }
 
-    private void modifyEntities(Entity entity) {
-        KillYoukaiWithKnives.getHelper().setTimestasised(entity, true);
+    private static void modifyEntities(Entity entity) {
+        if (!KillYoukaiWithKnives.getHelper().isTimestasised(entity))
+            KillYoukaiWithKnives.getHelper().setTimestasised(entity, true);
         if (entity instanceof LivingEntity living) {
             ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
                 if (!living.getAttributes().hasAttribute(attributeHolder))
@@ -103,8 +104,11 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         }
     }
 
-    private void removeEntityEffects(Entity entity) {
-        KillYoukaiWithKnives.getHelper().setTimestasised(entity, false);
+    private static void removeEntityEffects(Entity entity) {
+        if (!entity.level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).isEmpty())
+            return;
+        if (KillYoukaiWithKnives.getHelper().isTimestasised(entity))
+            KillYoukaiWithKnives.getHelper().setTimestasised(entity, false);
         if (entity instanceof LivingEntity living) {
             ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
                 if (!living.getAttributes().hasAttribute(attributeHolder))
