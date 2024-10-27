@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives;
 
 
+import net.merchantpug.killyoukaiwithknives.network.clientbound.SyncTimestasisStateClientboundPacket;
 import net.merchantpug.killyoukaiwithknives.platform.KillYoukaiWithKnivesPlatformHelperNeoForge;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiAttachments;
 import net.minecraft.world.damagesource.DamageSource;
@@ -10,6 +11,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
 @Mod(KillYoukaiWithKnives.MOD_ID)
 public class KillYoukaiWithKnivesNeoForge {
@@ -30,6 +32,12 @@ public class KillYoukaiWithKnivesNeoForge {
                 entity.setData(KillYoukaiAttachments.PREVIOUS_KNIVES_ATTACKER, source.getEntity().getUUID());
             else
                 entity.removeData(KillYoukaiAttachments.PREVIOUS_KNIVES_ATTACKER);
+        }
+
+        @SubscribeEvent
+        public static void registerPackets(RegisterPayloadHandlersEvent event) {
+            event.registrar("1.0.0")
+                    .playToClient(SyncTimestasisStateClientboundPacket.TYPE, SyncTimestasisStateClientboundPacket.STREAM_CODEC, (packet, context) -> packet.handle());
         }
     }
 }

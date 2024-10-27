@@ -5,6 +5,9 @@ import net.merchantpug.killyoukaiwithknives.enchantment.effect.SummonTimestasisE
 import net.merchantpug.killyoukaiwithknives.mixin.accessor.ProjectileAccessor;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.merchantpug.killyoukaiwithknives.damage.KillYoukaiDamageTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -23,6 +26,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class MagicKnifeEntity extends AbstractArrow {
+    private static final EntityDataAccessor<Boolean> FOIL = SynchedEntityData.defineId(MagicKnifeEntity.class, EntityDataSerializers.BOOLEAN);
+
     private boolean hasHitOwner = false;
     private boolean canCreateTimestasis = true;
     public boolean affectedByTimestasis = true;
@@ -33,7 +38,14 @@ public class MagicKnifeEntity extends AbstractArrow {
 
     public MagicKnifeEntity(LivingEntity owner, Level level, ItemStack pickupItemStack) {
         super(KillYoukaiEntityTypes.MAGIC_KNIFE, owner, level, pickupItemStack, null);
+        entityData.set(FOIL, pickupItemStack.hasFoil());
         pickup = Pickup.DISALLOWED;
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FOIL, false);
     }
 
     @Override
@@ -41,6 +53,10 @@ public class MagicKnifeEntity extends AbstractArrow {
         if (!level().getEntitiesOfClass(TimestasisEntity.class, getBoundingBox()).isEmpty())
             canCreateTimestasis = false;
         super.tick();
+    }
+
+    public boolean isFoil() {
+        return entityData.get(FOIL);
     }
 
     @Override
@@ -66,7 +82,7 @@ public class MagicKnifeEntity extends AbstractArrow {
         }
 
         DamageSource damageSource = damageSources().source(KillYoukaiDamageTypes.MAGIC_KNIVES, this, owner == null ? this : owner);
-        if (KillYoukaiWithKnives.getHelper().previouslyHurtByKnives(entity, owner))
+        if (owner != null && KillYoukaiWithKnives.getHelper().previouslyHurtByKnives(entity, owner))
             damageSource = damageSources().source(KillYoukaiDamageTypes.COOLDOWN_BYPASSING_MAGIC_KNIVES, this, owner);
 
         if (level() instanceof ServerLevel serverlevel) {
@@ -80,7 +96,7 @@ public class MagicKnifeEntity extends AbstractArrow {
 
             if (this.level() instanceof ServerLevel serverLevel) {
                 EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damageSource, getWeaponItem());
-                if (canCreateTimestasis && entity.isAlive() && level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).isEmpty()) {
+                if (canCreateTimestasis && level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).isEmpty()) {
                     TimestasisEntity timestasis = SummonTimestasisEffect.summonTimestasis(serverLevel, this, entity, damageSource);
                     if (timestasis == null)
                         return;
@@ -110,7 +126,6 @@ public class MagicKnifeEntity extends AbstractArrow {
     protected ItemStack getDefaultPickupItem() {
         return new ItemStack(KillYoukaiItems.MAGIC_KNIVES);
     }
-
 
     @Override
     protected void doKnockback(LivingEntity entity, DamageSource damageSource) {

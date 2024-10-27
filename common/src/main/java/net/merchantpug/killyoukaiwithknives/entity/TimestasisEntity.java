@@ -78,15 +78,14 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
             return;
         }
 
-        List<Entity> currentlyAffected = level().getEntitiesOfClass(Entity.class, getBoundingBox()).stream().filter(living -> getOwner() == null || !living.is(getOwner())).toList();
+        List<Entity> currentlyAffected = level().getEntitiesOfClass(Entity.class, getBoundingBox()).stream().filter(entity -> (!(entity instanceof MagicKnifeEntity magicKnifeEntity) || magicKnifeEntity.affectedByTimestasis) && (getOwner() == null || !entity.is(getOwner()))).toList();
 
         affectedEntities.stream().filter(living -> !currentlyAffected.contains(living)).forEach(this::removeEntityEffects);
         affectedEntities = currentlyAffected;
         affectedEntities.forEach(this::modifyEntities);
 
-
-        if (tickCount < 10) {
-            setRadius(Math.max(0, getRadius() - 0.3F));
+        if (tickCount < 3) {
+            setRadius(Math.max(0, getRadius() - 1.0F));
         } else if (getRadius() < maxSize) {
             setRadius(Math.min(getRadius() + increasePerTick, maxSize));
             setBoundingBox(AABB.ofSize(this.position(), getRadius(), getRadius(), getRadius()));
@@ -94,6 +93,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     }
 
     private void modifyEntities(Entity entity) {
+        KillYoukaiWithKnives.getHelper().setTimestasised(entity, true);
         if (entity instanceof LivingEntity living) {
             ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
                 if (!living.getAttributes().hasAttribute(attributeHolder))
@@ -104,9 +104,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     }
 
     private void removeEntityEffects(Entity entity) {
-        if (entity instanceof Projectile) {
-
-        }
+        KillYoukaiWithKnives.getHelper().setTimestasised(entity, false);
         if (entity instanceof LivingEntity living) {
             ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
                 if (!living.getAttributes().hasAttribute(attributeHolder))

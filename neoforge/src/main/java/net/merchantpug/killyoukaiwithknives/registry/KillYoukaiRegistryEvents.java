@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 public class KillYoukaiRegistryEvents {
     @SubscribeEvent
     public static void registerContent(RegisterEvent event) {
+        register(event, KillYoukaiAttachments::registerAll);
         register(event, KillYoukaiEnchantmentEffectComponents::registerAll);
         register(event, KillYoukaiEntityTypes::registerAll);
         register(event, KillYoukaiItems::registerAll);

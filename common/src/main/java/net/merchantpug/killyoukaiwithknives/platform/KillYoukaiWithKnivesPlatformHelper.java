@@ -1,5 +1,6 @@
 package net.merchantpug.killyoukaiwithknives.platform;
 
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.Entity;
 
 public interface KillYoukaiWithKnivesPlatformHelper {
@@ -26,5 +27,11 @@ public interface KillYoukaiWithKnivesPlatformHelper {
      */
     boolean isDevelopmentEnvironment();
 
+    void sendTrackingClientboundPacket(Entity entity, CustomPacketPayload payload);
+
     boolean previouslyHurtByKnives(Entity entity, Entity directAttacker);
+
+    boolean isTimestasised(Entity entity);
+
+    void setTimestasised(Entity entity, boolean value);
 }

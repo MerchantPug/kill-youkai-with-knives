@@ -1,5 +1,6 @@
 package net.merchantpug.killyoukaiwithknives.registry;
 
+import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
@@ -12,4 +13,9 @@ public class KillYoukaiAttachments {
             .<UUID>builder()
             .persistent(UUIDUtil.CODEC)
             .buildAndRegister(KillYoukaiWithKnives.asResource("previous_magic_knives_attacker"));
+
+    public static final AttachmentType<Boolean> IS_TIMESTASISED = AttachmentRegistry
+            .<Boolean>builder()
+            .persistent(Codec.BOOL)
+            .buildAndRegister(KillYoukaiWithKnives.asResource("is_timestasised"));
 }
