@@ -8,6 +8,7 @@
     "AbstractArrowMixin",
     "EntityMixin",
     "ProjectileMixin",
+    "accessor.AbstractArrowAccessor",
     "accessor.EnchantmentAccessor",
     "accessor.ProjectileAccessor"
   ],

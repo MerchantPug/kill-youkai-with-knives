@@ -19,6 +19,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -103,12 +104,24 @@ public class KillYoukaiWithKnivesDatagen implements DataGeneratorEntrypoint {
             getOrCreateTagBuilder(EnchantmentTags.TOOLTIP_ORDER)
                     .add(
                             KillYoukaiEnchantments.TIMESTASIS,
-                            KillYoukaiEnchantments.SCATTER
+                            KillYoukaiEnchantments.SCATTER,
+                            KillYoukaiEnchantments.SCAVENGE,
+                            KillYoukaiEnchantments.TIMECOLLECTION
+                    );
+            getOrCreateTagBuilder(KillYoukaiTags.Enchantments.MAGIC_KNIVES_EXCLUSIVE)
+                    .add(
+                            Enchantments.MENDING,
+                            Enchantments.UNBREAKING
                     );
             getOrCreateTagBuilder(EnchantmentTags.NON_TREASURE)
                     .add(
                             KillYoukaiEnchantments.SCATTER,
+                            KillYoukaiEnchantments.SCAVENGE,
                             KillYoukaiEnchantments.TIMESTASIS
+                    );
+            getOrCreateTagBuilder(EnchantmentTags.TREASURE)
+                    .add(
+                            KillYoukaiEnchantments.TIMECOLLECTION
                     );
         }
     }

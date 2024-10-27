@@ -1,16 +1,22 @@
 package net.merchantpug.killyoukaiwithknives.entity;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
+import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEffectComponents;
 import net.merchantpug.killyoukaiwithknives.enchantment.effect.SummonTimestasisEffect;
+import net.merchantpug.killyoukaiwithknives.mixin.accessor.AbstractArrowAccessor;
 import net.merchantpug.killyoukaiwithknives.mixin.accessor.ProjectileAccessor;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.merchantpug.killyoukaiwithknives.damage.KillYoukaiDamageTypes;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Unit;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,11 +25,21 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.ConditionalEffect;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Optional;
 
 public class MagicKnifeEntity extends AbstractArrow {
     private static final EntityDataAccessor<Boolean> FOIL = SynchedEntityData.defineId(MagicKnifeEntity.class, EntityDataSerializers.BOOLEAN);
@@ -53,6 +69,9 @@ public class MagicKnifeEntity extends AbstractArrow {
         if (!level().getEntitiesOfClass(TimestasisEntity.class, getBoundingBox()).isEmpty())
             canCreateTimestasis = false;
         super.tick();
+
+        if (!level().isClientSide() && getOwner() instanceof LivingEntity living && hasUnitComponent(getWeaponItem(), living, (ServerLevel)level(), KillYoukaiEnchantmentEffectComponents.AUTOMATIC_SCAVENGE) && ((AbstractArrowAccessor)this).killyoukaiwithknives$getLife() > 400)
+            tryRepairKnivesInInventory(living);
     }
 
     public boolean isFoil() {
@@ -66,16 +85,17 @@ public class MagicKnifeEntity extends AbstractArrow {
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        if (!level().isClientSide && getDeltaMovement().lengthSqr() < 1.0E-7 && result.getEntity() instanceof LivingEntity living && tryRepairKnivesInInventory(living))
+        if (!level().isClientSide && getDeltaMovement().lengthSqr() < 1.0E-7 && result.getEntity() instanceof LivingEntity living && hasUnitComponent(getWeaponItem(), getOwner(), (ServerLevel)level(), KillYoukaiEnchantmentEffectComponents.SCAVENGE_PROJECTILES) && tryRepairKnivesInInventory(living))
             return;
 
         Entity entity = result.getEntity();
-        float f = 1.0F;
+        float f = 2.0F;
         Entity owner = getOwner();
 
         if (entity == owner && ((ProjectileAccessor)this).killyoukaiwithknives$hasLeftOwner()) {
             if (owner instanceof LivingEntity living && !hasHitOwner) {
-                tryRepairKnivesInInventory(living);
+                if (!level().isClientSide() && hasUnitComponent(getWeaponItem(), getOwner(), (ServerLevel)level(), KillYoukaiEnchantmentEffectComponents.SCAVENGE_PROJECTILES))
+                    tryRepairKnivesInInventory(living);
                 hasHitOwner = true;
             }
             return;
@@ -85,9 +105,8 @@ public class MagicKnifeEntity extends AbstractArrow {
         if (owner != null && KillYoukaiWithKnives.getHelper().previouslyHurtByKnives(entity, owner))
             damageSource = damageSources().source(KillYoukaiDamageTypes.COOLDOWN_BYPASSING_MAGIC_KNIVES, this, owner);
 
-        if (level() instanceof ServerLevel serverlevel) {
+        if (level() instanceof ServerLevel serverlevel)
             f = EnchantmentHelper.modifyDamage(serverlevel, getWeaponItem(), entity, damageSource, f);
-        }
 
         if (entity.hurt(damageSource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
@@ -114,6 +133,7 @@ public class MagicKnifeEntity extends AbstractArrow {
         }
 
         discard();
+        // FIXME: Sounds
         playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
     }
 
@@ -143,27 +163,55 @@ public class MagicKnifeEntity extends AbstractArrow {
 
     @Override
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
+        // FIXME: Sounds
         return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
     @Override
     public void playerTouch(Player entity) {
-        if (!level().isClientSide && (inGround || isNoPhysics()) && shakeTime <= 0)
+        if (!level().isClientSide && (inGround || isNoPhysics()) && hasUnitComponent(getWeaponItem(), getOwner(), (ServerLevel)level(), KillYoukaiEnchantmentEffectComponents.SCAVENGE_PROJECTILES) && shakeTime <= 0)
             tryRepairKnivesInInventory(entity);
     }
 
     private boolean tryRepairKnivesInInventory(LivingEntity living) {
         if (!living.is(getOwner()))
             return false;
-        for (ItemStack stack : living.getHandSlots()) {
-            if (!stack.isEmpty() && (living instanceof Player player && player.isCreative() || stack.isDamaged()) && ItemStack.isSameItem(new ItemStack(KillYoukaiItems.MAGIC_KNIVES), stack)) {
-                // TODO: Change the sound to a new one.
-                level().playSound(null, living, SoundEvents.ITEM_PICKUP, living.getSoundSource(),1.0F, 1.2F - living.getRandom().nextFloat() * 0.6F);
-                discard();
-                if (!(living instanceof Player player) || !player.isCreative())
-                    stack.setDamageValue(stack.getDamageValue() - 1);
+        for (ItemStack stack : living.getAllSlots()) {
+            if (handleRepair(stack, living))
                 return true;
+        }
+        if (living instanceof Player player) {
+            for (ItemStack stack : player.getInventory().items) {
+                if (handleRepair(stack, player))
+                    return true;
             }
+        }
+        return false;
+    }
+
+    private boolean hasUnitComponent(ItemStack stack, Entity owner, ServerLevel level, DataComponentType<List<ConditionalEffect<Unit>>> componentType) {
+        return stack.getEnchantments().entrySet().stream().anyMatch((entry) -> {
+            int enchantmentLevel = entry.getIntValue();
+            LootContext context = new LootContext.Builder(new LootParams.Builder(level)
+                    .withParameter(LootContextParams.THIS_ENTITY, owner)
+                    .withParameter(LootContextParams.ENCHANTMENT_LEVEL, enchantmentLevel)
+                    .withParameter(LootContextParams.ORIGIN, position())
+                    .create(LootContextParamSets.ENCHANTED_ENTITY)
+            ).create(Optional.empty());
+            Holder<Enchantment> enchantment = entry.getKey();
+            if (!enchantment.isBound())
+                return false;
+            return enchantment.value().getEffects(componentType).stream().anyMatch(conditional -> conditional.matches(context));
+        });
+    }
+
+    private boolean handleRepair(ItemStack stack, LivingEntity living) {
+        if (!stack.isEmpty() && (living instanceof Player player && player.isCreative() || stack.isDamaged()) && ItemStack.isSameItem(new ItemStack(KillYoukaiItems.MAGIC_KNIVES), stack)) {
+            level().playSound(null, living, SoundEvents.ITEM_PICKUP, living.getSoundSource(),1.0F, 1.2F - living.getRandom().nextFloat() * 0.6F);
+            discard();
+            if (!(living instanceof Player player) || !player.isCreative())
+                stack.setDamageValue(stack.getDamageValue() - 1);
+            return true;
         }
         return false;
     }

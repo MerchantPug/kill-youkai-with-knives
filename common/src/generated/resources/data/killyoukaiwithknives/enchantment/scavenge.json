@@ -1,0 +1,28 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.killyoukaiwithknives.scavenge"
+  },
+  "effects": {
+    "killyoukaiwithknives:scavenge_projectiles": [
+      {
+        "effect": {}
+      }
+    ]
+  },
+  "exclusive_set": "#killyoukaiwithknives:exclusive_set/magic_knives",
+  "max_cost": {
+    "base": 55,
+    "per_level_above_first": 8
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 5,
+    "per_level_above_first": 8
+  },
+  "slots": [
+    "any"
+  ],
+  "supported_items": "#killyoukaiwithknives:enchantable/magic_knives",
+  "weight": 5
+}

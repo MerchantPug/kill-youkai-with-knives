@@ -7,5 +7,9 @@
   "enchantment.killyoukaiwithknives.timestasis": "Timestasis",
   "enchantment.killyoukaiwithknives.timestasis.desc": "Creates an area where time is slowed down upon hitting an entity.",
   "enchantment.killyoukaiwithknives.scatter": "Scatter",
-  "enchantment.killyoukaiwithknives.scatter.desc": "Throws additional and scatters knives from this item."
+  "enchantment.killyoukaiwithknives.scatter.desc": "Throws additional and scatters knives from this item.",
+  "enchantment.killyoukaiwithknives.scavenge": "Scavenge",
+  "enchantment.killyoukaiwithknives.scavenge.desc": "Allows you to pick up your knives to regain durability.",
+  "enchantment.killyoukaiwithknives.timecollection": "Timecollection",
+  "enchantment.killyoukaiwithknives.timecollection.desc": "Returns your knives to you after some time, which regains your durability."
 }
