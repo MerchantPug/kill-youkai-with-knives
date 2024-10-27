@@ -55,6 +55,8 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
             increasePerTick = tag.getFloat("increase_per_tick");
         if (tag.contains("max_size"))
             maxSize = tag.getFloat("max_size");
+        if (tag.contains("lifespan"))
+            lifespan = tag.getLong("lifespan");
         if (tag.contains("owner"))
             ownerUUID = tag.getUUID("owner");
     }
@@ -64,6 +66,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         tag.putFloat("radius", getRadius());
         tag.putFloat("increase_per_tick", increasePerTick);
         tag.putFloat("max_size", maxSize);
+        tag.putLong("lifespan", lifespan);
         if (ownerUUID != null)
             tag.putUUID("owner", ownerUUID);
     }
