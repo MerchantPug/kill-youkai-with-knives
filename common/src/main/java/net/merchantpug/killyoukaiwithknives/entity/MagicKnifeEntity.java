@@ -209,7 +209,7 @@ public class MagicKnifeEntity extends AbstractArrow {
             level().playSound(null, living, SoundEvents.ITEM_PICKUP, living.getSoundSource(),1.0F, 1.2F - living.getRandom().nextFloat() * 0.6F);
             discard();
             if (!(living instanceof Player player) || !player.isCreative())
-                stack.setDamageValue(stack.getDamageValue() - 2);
+                stack.setDamageValue(stack.getDamageValue() - (random.nextFloat() < 0.33 ? 2 : 1));
             return true;
         }
         return false;
