@@ -14,6 +14,7 @@ import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
@@ -89,7 +90,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     }
 
     public static void runEntityLogic(Entity entity) {
-        if (entity.level().isClientSide() || entity instanceof MagicKnifeEntity magicKnifeEntity && !magicKnifeEntity.affectedByTimestasis)
+        if (entity.level().isClientSide() || entity instanceof TimestasisEntity || entity instanceof MagicKnifeEntity magicKnifeEntity && !magicKnifeEntity.affectedByTimestasis)
             return;
         List<TimestasisEntity> timestasisEntities = entity.level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).stream().filter(e -> (e.getOwner() == null || !entity.is(e.getOwner()))).toList();
 
@@ -100,7 +101,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     }
 
     private static void addEntityEffects(Entity entity) {
-        KillYoukaiWithKnives.getHelper().setTimestasised(entity, true);
+        KillYoukaiWithKnives.getHelper().setTimestasised(entity, true, entity instanceof Projectile ? entity.position() : null);
         if (entity instanceof LivingEntity living) {
             ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
                 if (!living.getAttributes().hasAttribute(attributeHolder))
@@ -111,7 +112,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     }
 
     private static void removeEntityEffects(Entity entity) {
-        KillYoukaiWithKnives.getHelper().setTimestasised(entity, false);
+        KillYoukaiWithKnives.getHelper().setTimestasised(entity, false, null);
         if (entity instanceof LivingEntity living) {
             ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
                 if (!living.getAttributes().hasAttribute(attributeHolder))

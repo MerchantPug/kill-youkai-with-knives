@@ -4,9 +4,13 @@ import net.merchantpug.killyoukaiwithknives.network.clientbound.SyncTimestasisSt
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiAttachments;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class KillYoukaiWithKnivesPlatformHelperNeoForge implements KillYoukaiWithKnivesPlatformHelper {
 
@@ -42,11 +46,20 @@ public class KillYoukaiWithKnivesPlatformHelperNeoForge implements KillYoukaiWit
     }
 
     @Override
-    public void setTimestasised(Entity entity, boolean value) {
-        if (!value)
+    public void setTimestasised(Entity entity, boolean value, @Nullable Vec3 pos) {
+        if (!value) {
             entity.removeData(KillYoukaiAttachments.IS_TIMESTASISED);
+            entity.removeData(KillYoukaiAttachments.TIMESTASIS_POSITION);
+        }
         entity.setData(KillYoukaiAttachments.IS_TIMESTASISED, value);
+        if (pos != null)
+            entity.setData(KillYoukaiAttachments.TIMESTASIS_POSITION, pos);
         if (!entity.level().isClientSide())
-            sendTrackingClientboundPacket(entity, new SyncTimestasisStateClientboundPacket(entity.getId(), value));
+            sendTrackingClientboundPacket(entity, new SyncTimestasisStateClientboundPacket(entity.getId(), value, Optional.ofNullable(pos)));
+    }
+
+    @Override
+    public @Nullable Vec3 getTimestasisPos(Entity entity) {
+        return entity.getExistingData(KillYoukaiAttachments.TIMESTASIS_POSITION).orElse(null);
     }
 }

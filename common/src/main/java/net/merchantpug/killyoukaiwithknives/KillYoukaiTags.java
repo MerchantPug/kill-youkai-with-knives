@@ -18,5 +18,6 @@ public class KillYoukaiTags {
 
     public static class Items {
         public static final TagKey<Item> MAGIC_KNIVES_ENCHANTABLE = TagKey.create(Registries.ITEM, KillYoukaiWithKnives.asResource("enchantable/magic_knives"));
+        public static final TagKey<Item> MAGIC_KNIVES_REPAIR_INGREDIENT = TagKey.create(Registries.ITEM, KillYoukaiWithKnives.asResource("repair_ingredient/magic_knives"));
     }
 }

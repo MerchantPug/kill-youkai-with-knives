@@ -31,8 +31,10 @@ public abstract class AbstractArrowMixin extends Projectile {
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;getX()D", ordinal = 1), cancellable = true)
     private void killyoukaiwithknives$cancelProjectileMovementInTimestasis(CallbackInfo ci) {
         if (KillYoukaiWithKnives.getHelper().isTimestasised(this)) {
-            if (killyoukaiwithknives$previousPosition == null)
-                killyoukaiwithknives$previousPosition = position();
+            if (killyoukaiwithknives$previousPosition == null) {
+                Vec3 pos =  KillYoukaiWithKnives.getHelper().getTimestasisPos(this);
+                killyoukaiwithknives$previousPosition = pos != null ? pos : position();
+            }
             setPos(killyoukaiwithknives$previousPosition);
             xRotO = getXRot();
             yRotO = getYRot();

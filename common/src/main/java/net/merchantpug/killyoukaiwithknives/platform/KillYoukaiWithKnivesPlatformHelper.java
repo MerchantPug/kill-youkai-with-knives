@@ -2,6 +2,8 @@ package net.merchantpug.killyoukaiwithknives.platform;
 
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public interface KillYoukaiWithKnivesPlatformHelper {
 
@@ -33,5 +35,8 @@ public interface KillYoukaiWithKnivesPlatformHelper {
 
     boolean isTimestasised(Entity entity);
 
-    void setTimestasised(Entity entity, boolean value);
+    void setTimestasised(Entity entity, boolean value, @Nullable Vec3 pos);
+
+    @Nullable
+    Vec3 getTimestasisPos(Entity entity);
 }

@@ -1,5 +1,6 @@
 package net.merchantpug.killyoukaiwithknives.item;
 
+import net.merchantpug.killyoukaiwithknives.KillYoukaiTags;
 import net.merchantpug.killyoukaiwithknives.entity.MagicKnifeEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -53,6 +54,11 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
     @Override
     public int getDefaultProjectileRange() {
         return 8;
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
+        return repairCandidate.is(KillYoukaiTags.Items.MAGIC_KNIVES_REPAIR_INGREDIENT);
     }
 
     @Override

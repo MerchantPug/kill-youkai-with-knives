@@ -19,6 +19,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.concurrent.CompletableFuture;
@@ -140,6 +141,10 @@ public class KillYoukaiWithKnivesDatagen implements DataGeneratorEntrypoint {
             getOrCreateTagBuilder(KillYoukaiTags.Items.MAGIC_KNIVES_ENCHANTABLE)
                     .add(
                             reverseLookup(KillYoukaiItems.MAGIC_KNIVES)
+                    );
+            getOrCreateTagBuilder(KillYoukaiTags.Items.MAGIC_KNIVES_REPAIR_INGREDIENT)
+                    .add(
+                            reverseLookup(Items.IRON_INGOT)
                     );
             getOrCreateTagBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE)
                     .add(
