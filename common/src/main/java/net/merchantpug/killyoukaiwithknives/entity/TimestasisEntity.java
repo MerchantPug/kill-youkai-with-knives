@@ -7,10 +7,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -95,7 +92,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
                 TimestasisEntity.removeEntityEffects(entity);
             return;
         }
-        List<TimestasisEntity> timestasisEntities = entity.level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).stream().filter(e -> (e.getOwner() == null || !entity.is(e.getOwner()))).toList();
+        List<TimestasisEntity> timestasisEntities = entity.level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).stream().filter(e -> (e.getOwner() == null || !entity.is(e.getOwner()) && (!(entity instanceof TamableAnimal tamable) || tamable.getOwner() == null || !tamable.getOwner().is(e.getOwner())))).toList();
 
         if (!timestasisEntities.isEmpty() && !KillYoukaiWithKnives.getHelper().isTimestasised(entity))
             TimestasisEntity.addEntityEffects(entity);
