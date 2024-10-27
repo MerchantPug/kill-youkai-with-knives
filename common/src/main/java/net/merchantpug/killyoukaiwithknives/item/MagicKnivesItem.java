@@ -2,6 +2,7 @@ package net.merchantpug.killyoukaiwithknives.item;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiTags;
 import net.merchantpug.killyoukaiwithknives.entity.MagicKnifeEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,6 +19,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -49,6 +51,11 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
     @Override
     public Predicate<ItemStack> getAllSupportedProjectiles() {
         return stack -> stack.is(KillYoukaiItems.MAGIC_KNIVES);
+    }
+
+    @Override
+    public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
+        return !player.isCreative();
     }
 
     @Override
