@@ -10,6 +10,7 @@ import net.merchantpug.killyoukaiwithknives.damage.KillYoukaiDamageTypes;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -61,6 +62,20 @@ public class MagicKnifeEntity extends AbstractArrow {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(FOIL, false);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        hasHitOwner = tag.getBoolean("has_hit_owner");
+        canCreateTimestasis = tag.getBoolean("can_create_timestasis");
+        affectedByTimestasis = tag.getBoolean("affected_by_timestasis");
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        tag.putBoolean("has_hit_owner", hasHitOwner);
+        tag.putBoolean("can_create_timestasis", canCreateTimestasis);
+        tag.putBoolean("affected_by_timestasis", affectedByTimestasis);
     }
 
     @Override

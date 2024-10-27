@@ -1,6 +1,11 @@
 {
   "item.killyoukaiwithknives.magic_knives": "Magic Knives",
+  "item.killyoukaiwithknives.maid_bonnet": "Maid Bonnet",
+  "item.killyoukaiwithknives.maid_dress": "Maid Dress",
+  "item.killyoukaiwithknives.maid_leggings": "Maid Leggings",
+  "item.killyoukaiwithknives.maid_boots": "Maid Boots",
   "entity.killyoukaiwithknives.magic_knife": "Magic Knife",
+  "entity.killyoukaiwithknives.timestasis": "Timestasis",
   "death.attack.magicKnives": "%1$s had their organs pierced by %2$s",
   "death.attack.magicKnives.item": "%1$s had their organs pierced by %2$s with %3$s",
 

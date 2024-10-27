@@ -3,8 +3,10 @@ package net.merchantpug.killyoukaiwithknives.registry;
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
 import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEffectComponents;
 import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
+import net.merchantpug.killyoukaiwithknives.item.KillYoukaiArmorMaterials;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -16,10 +18,14 @@ import java.util.function.Consumer;
 public class KillYoukaiRegistryEvents {
     @SubscribeEvent
     public static void registerContent(RegisterEvent event) {
+        if (event.getRegistryKey() == Registries.ARMOR_MATERIAL) {
+            registerHolders(KillYoukaiArmorMaterials::registerAll);
+            KillYoukaiItems.registerAll(Registry::register);
+        }
+
         register(event, KillYoukaiAttachments::registerAll);
         register(event, KillYoukaiEnchantmentEffectComponents::registerAll);
         register(event, KillYoukaiEntityTypes::registerAll);
-        register(event, KillYoukaiItems::registerAll);
     }
 
     private static <T> void register(RegisterEvent event, Consumer<RegistrationCallback<T>> consumer) {
