@@ -68,7 +68,7 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
             ServerLevel serverLevel = (ServerLevel) level;
             List<ItemStack> stacks = new ArrayList<>();
             for (int i = 0; i < 3; ++i)
-                if (stack.getDamageValue() < stack.getMaxDamage() - i - 1)
+                if (stack.getDamageValue() < stack.getMaxDamage() - i - 1 || stack.getDamageValue() == stack.getMaxDamage() - 1)
                     stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
 
             int projectileCount = EnchantmentHelper.processProjectileCount(serverLevel, stack, player, 0);
