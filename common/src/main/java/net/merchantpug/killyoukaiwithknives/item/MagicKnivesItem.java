@@ -72,8 +72,10 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
                     stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
 
             int projectileCount = EnchantmentHelper.processProjectileCount(serverLevel, stack, player, 0);
-            for (int i = 0; i < projectileCount; ++i)
-                stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
+            for (int i = 0; i < projectileCount; ++i) {
+                if (stack.getDamageValue() < stack.getMaxDamage() - i - 1)
+                    stacks.add(new ItemStack(KillYoukaiItems.MAGIC_KNIVES));
+            }
 
             shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 2.0F, 8.0F, false, null);
             // FIXME: Change sound!
