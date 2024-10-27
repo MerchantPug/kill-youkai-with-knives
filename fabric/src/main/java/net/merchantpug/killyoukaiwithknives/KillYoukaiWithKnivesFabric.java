@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives;
 
 import net.fabricmc.api.ModInitializer;
+import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEffectComponents;
 import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.minecraft.core.Registry;
@@ -14,7 +15,8 @@ public class KillYoukaiWithKnivesFabric implements ModInitializer {
     }
 
     private static void registerContent() {
-        KillYoukaiItems.registerAll(Registry::register);
+        KillYoukaiEnchantmentEffectComponents.registerAll(Registry::register);
         KillYoukaiEntityTypes.registerAll(Registry::register);
+        KillYoukaiItems.registerAll(Registry::register);
     }
 }

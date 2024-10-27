@@ -1,0 +1,38 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.killyoukaiwithknives.timestasis"
+  },
+  "effects": {
+    "killyoukaiwithknives:summon_timestasis": [
+      {
+        "effect": {
+          "lifespan": {
+            "type": "minecraft:linear",
+            "base": 80.0,
+            "per_level_above_first": 40.0
+          },
+          "max_scale": {
+            "type": "minecraft:linear",
+            "base": 5.0,
+            "per_level_above_first": 3.0
+          }
+        }
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "max_level": 2,
+  "min_cost": {
+    "base": 12,
+    "per_level_above_first": 7
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#killyoukaiwithknives:enchantable/magic_knives",
+  "weight": 5
+}

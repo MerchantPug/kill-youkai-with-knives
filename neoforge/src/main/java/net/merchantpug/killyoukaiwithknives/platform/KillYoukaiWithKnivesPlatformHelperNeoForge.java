@@ -21,6 +21,7 @@ public class KillYoukaiWithKnivesPlatformHelperNeoForge implements KillYoukaiWit
     public boolean isDevelopmentEnvironment() {
         return !FMLLoader.isProduction();
     }
+
     @Override
     public boolean previouslyHurtByKnives(Entity entity, Entity directAttacker) {
         return entity.hasData(KillYoukaiAttachments.PREVIOUS_KNIVES_ATTACKER) && entity.getData(KillYoukaiAttachments.PREVIOUS_KNIVES_ATTACKER) == directAttacker.getUUID();

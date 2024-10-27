@@ -9,6 +9,15 @@ plugins {
     id("me.modmuss50.mod-publish-plugin")
 }
 
+sourceSets {
+    create("datagen") {
+        compileClasspath += main.get().compileClasspath
+        runtimeClasspath += main.get().runtimeClasspath
+        compileClasspath += main.get().output
+        runtimeClasspath += main.get().output
+    }
+}
+
 repositories {
     maven {
         name = "TerraformersMC"
@@ -56,11 +65,11 @@ loom {
         register("datagen") {
             server()
             configName = "Fabric Datagen"
-            setSource(sourceSets["test"])
+            setSource(sourceSets["datagen"])
             ideConfigGenerated(true)
             vmArg("-Dfabric-api.datagen")
             vmArg("-Dfabric-api.datagen.output-dir=${file("../common/src/generated/resources")}")
-            vmArg("-Dfabric-api.datagen.modid=${Properties.MOD_ID}")
+            vmArg("-Dfabric-api.datagen.modid=${Properties.MOD_ID}_datagen")
             runDir("build/datagen")
         }
     }

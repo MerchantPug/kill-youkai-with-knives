@@ -14,22 +14,24 @@ import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class TimestasisEntity extends Entity implements TraceableEntity {
     private static final EntityDataAccessor<Float> RADIUS = SynchedEntityData.defineId(TimestasisEntity.class, EntityDataSerializers.FLOAT);
     private float increasePerTick = 0.1F;
     private float maxSize = 8.0F;
+    private long lifespan = 80;
     @Nullable
     private UUID ownerUUID;
     @Nullable
     private Entity cachedOwner;
-    private List<LivingEntity> affectedEntities = new ArrayList<>();
+    private List<Entity> affectedEntities = new ArrayList<>();
 
     public static final Map<Holder<Attribute>, AttributeModifier> ATTRIBUTE_MAP = Map.of(
             Attributes.MOVEMENT_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.movement_speed"), -0.6, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
@@ -66,6 +68,52 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
             tag.putUUID("owner", ownerUUID);
     }
 
+    @Override
+    public void tick() {
+        if (level().isClientSide)
+            return;
+        if (tickCount > lifespan) {
+            affectedEntities.forEach(this::removeEntityEffects);
+            discard();
+            return;
+        }
+
+        List<Entity> currentlyAffected = level().getEntitiesOfClass(Entity.class, getBoundingBox()).stream().filter(living -> getOwner() == null || !living.is(getOwner())).toList();
+
+        affectedEntities.stream().filter(living -> !currentlyAffected.contains(living)).forEach(this::removeEntityEffects);
+        affectedEntities = currentlyAffected;
+        affectedEntities.forEach(this::modifyEntities);
+
+
+        if (getRadius() < maxSize) {
+            setRadius(Math.min(getRadius() + increasePerTick, maxSize));
+            setBoundingBox(AABB.ofSize(this.position(), getRadius(), getRadius(), getRadius()));
+        }
+    }
+
+    private void modifyEntities(Entity entity) {
+        if (entity instanceof LivingEntity living) {
+            ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
+                if (!living.getAttributes().hasAttribute(attributeHolder))
+                    return;
+                living.getAttribute(attributeHolder).addOrUpdateTransientModifier(attributeModifier);
+            });
+        }
+    }
+
+    private void removeEntityEffects(Entity entity) {
+        if (entity instanceof Projectile) {
+
+        }
+        if (entity instanceof LivingEntity living) {
+            ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
+                if (!living.getAttributes().hasAttribute(attributeHolder))
+                    return;
+                living.getAttribute(attributeHolder).removeModifier(attributeModifier);
+            });
+        }
+    }
+
     @Nullable
     @Override
     public Entity getOwner() {
@@ -87,37 +135,6 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         cachedOwner = entity;
     }
 
-    @Override
-    public void tick() {
-        List<LivingEntity> currentlyAffected = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox()).stream().filter(living -> getOwner() == null || !living.is(getOwner())).toList();
-
-        affectedEntities.stream().filter(living -> !currentlyAffected.contains(living)).forEach(TimestasisEntity::removeEntityEffects);
-        affectedEntities = currentlyAffected;
-        affectedEntities.forEach(TimestasisEntity::addEntityEffects);
-
-        if (getRadius() < maxSize) {
-            setRadius(Math.min(getRadius() + increasePerTick, maxSize));
-            setBoundingBox(AABB.ofSize(this.position(), getRadius(), getRadius(), getRadius()));
-        } else
-            discard();
-    }
-
-    private static void addEntityEffects(LivingEntity entity) {
-        ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
-            if (!entity.getAttributes().hasAttribute(attributeHolder))
-                return;
-            entity.getAttribute(attributeHolder).addOrUpdateTransientModifier(attributeModifier);
-        });
-    }
-
-    private static void removeEntityEffects(LivingEntity entity) {
-        ATTRIBUTE_MAP.forEach((attributeHolder, attributeModifier) -> {
-            if (!entity.getAttributes().hasAttribute(attributeHolder))
-                return;
-            entity.getAttribute(attributeHolder).removeModifier(attributeModifier);
-        });
-    }
-
     public float getRadius() {
         return entityData.get(RADIUS);
     }
@@ -132,6 +149,10 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
 
     public void setMaxSize(float maxSize) {
         this.maxSize = maxSize;
+    }
+
+    public void setLifespan(long lifespan) {
+        this.lifespan = lifespan;
     }
 
     @Override

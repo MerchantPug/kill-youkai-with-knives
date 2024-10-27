@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "${mod_id}",
+    "id": "${mod_id}_datagen",
     "version": "${mod_version}+${minecraft_version}",
     "name": "${mod_name}",
     "description": "${mod_description}",
@@ -16,23 +16,12 @@
         "sources": "https://github.com/${sources}"
     },
     "license": "${mod_license}",
-    "icon": "${mod_id}.png",
     "environment": "*",
     "entrypoints": {
-        "main": [
-            "net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnivesFabric"
-        ],
-        "client": [
-            "net.merchantpug.killyoukaiwithknives.client.KillYoukaiWithKnivesFabricClient"
-        ],
-        "preLaunch": [
-            "net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnivesFabricPre"
+        "fabric-datagen": [
+            "net.merchantpug.killyoukaiwithknives.datagen.KillYoukaiWithKnivesDatagen"
         ]
     },
-    "mixins": [
-        "${mod_id}.mixins.json",
-        "${mod_id}.fabric.mixins.json"
-    ],
     "depends": {
         "fabricloader": "${fabric_loader_range}",
         "fabric-api": "*",

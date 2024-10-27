@@ -6,6 +6,7 @@ object Properties {
     const val ARCHIVES_NAME = "kill-youkai-with-knives"
     const val MOD_ID = "killyoukaiwithknives"
     const val MOD_AUTHOR = "MerchantPug"
+    val MOD_CONTRIBUTORS = listOf("Kneelawk")
     const val DESCRIPTION = "Adds a timestopping pocket watch that summons magical knives."
     const val LICENSE = "MPL-2.0"
 

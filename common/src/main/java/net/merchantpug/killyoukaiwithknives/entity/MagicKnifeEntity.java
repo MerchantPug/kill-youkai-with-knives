@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives.entity;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
+import net.merchantpug.killyoukaiwithknives.enchantment.effect.SummonTimestasisEffect;
 import net.merchantpug.killyoukaiwithknives.mixin.accessor.ProjectileAccessor;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.merchantpug.killyoukaiwithknives.damage.KillYoukaiDamageTypes;
@@ -21,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class MagicKnifeEntity extends AbstractArrow {
     private boolean hasHitOwner = false;
+    private boolean canCreateTimestasis = true;
+    public boolean affectedByTimestasis = true;
 
     public MagicKnifeEntity(EntityType<MagicKnifeEntity> entityType, Level level) {
         super(entityType, level);
@@ -29,6 +32,13 @@ public class MagicKnifeEntity extends AbstractArrow {
     public MagicKnifeEntity(LivingEntity owner, Level level, ItemStack pickupItemStack) {
         super(KillYoukaiEntityTypes.MAGIC_KNIFE, owner, level, pickupItemStack, null);
         pickup = Pickup.DISALLOWED;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!level().getEntitiesOfClass(TimestasisEntity.class, getBoundingBox()).isEmpty())
+            canCreateTimestasis = false;
     }
 
     @Override
@@ -68,7 +78,10 @@ public class MagicKnifeEntity extends AbstractArrow {
 
             if (this.level() instanceof ServerLevel serverLevel) {
                 EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damageSource, getWeaponItem());
-                // TODO: Timestasis enchantment.
+                if (canCreateTimestasis) {
+                    SummonTimestasisEffect.summonTimestasis(serverLevel, this, entity, damageSource);
+                    level().getEntitiesOfClass(MagicKnifeEntity.class, this.getBoundingBox().inflate(4.0F, 4.0F, 4.0F)).forEach(magicKnifeEntity -> magicKnifeEntity.affectedByTimestasis = false);
+                }
             }
 
             if (entity instanceof LivingEntity livingentity) {

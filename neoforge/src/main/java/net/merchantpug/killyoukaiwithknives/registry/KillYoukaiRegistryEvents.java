@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives.registry;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
+import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEffectComponents;
 import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.minecraft.core.Registry;
@@ -12,9 +13,10 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import java.util.function.Consumer;
 
 @EventBusSubscriber(modid = KillYoukaiWithKnives.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-public class BovinesRegistryEvents {
+public class KillYoukaiRegistryEvents {
     @SubscribeEvent
     public static void registerContent(RegisterEvent event) {
+        register(event, KillYoukaiEnchantmentEffectComponents::registerAll);
         register(event, KillYoukaiEntityTypes::registerAll);
         register(event, KillYoukaiItems::registerAll);
     }
