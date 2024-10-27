@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives.entity;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
+import net.merchantpug.killyoukaiwithknives.attribute.KillYoukaiAttributes;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -31,9 +32,11 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
 
     public static final Map<Holder<Attribute>, AttributeModifier> ATTRIBUTE_MAP = Map.of(
             Attributes.MOVEMENT_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.movement_speed"), -0.6, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+            KillYoukaiAttributes.AIR_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.air_speed"), -0.6, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
             Attributes.ATTACK_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.attack_speed"), -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
             Attributes.GRAVITY, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.gravity"), -0.4, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
-            Attributes.JUMP_STRENGTH, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.jump_strength"), -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+            Attributes.JUMP_STRENGTH, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.jump_strength"), -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+            Attributes.FLYING_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.flying_speed"), -0.6, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
     );
 
     public TimestasisEntity(EntityType<TimestasisEntity> entityType, Level level) {
@@ -87,7 +90,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     }
 
     public static void runEntityLogic(Entity entity) {
-        if (entity.level().isClientSide() || entity instanceof TimestasisEntity || entity instanceof MagicKnifeEntity magicKnifeEntity && !magicKnifeEntity.affectedByTimestasis) {
+        if (entity.level().isClientSide() || entity.isSpectator() || entity instanceof TimestasisEntity || entity instanceof MagicKnifeEntity magicKnifeEntity && !magicKnifeEntity.affectedByTimestasis) {
             if (!entity.level().isClientSide() && KillYoukaiWithKnives.getHelper().isTimestasised(entity))
                 TimestasisEntity.removeEntityEffects(entity);
             return;

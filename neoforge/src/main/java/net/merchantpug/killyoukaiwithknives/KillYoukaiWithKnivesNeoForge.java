@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives;
 
 
+import net.merchantpug.killyoukaiwithknives.attribute.KillYoukaiAttributes;
 import net.merchantpug.killyoukaiwithknives.entity.TimestasisEntity;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.merchantpug.killyoukaiwithknives.network.clientbound.SyncTimestasisStateClientboundPacket;
@@ -14,6 +15,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -35,6 +37,12 @@ public class KillYoukaiWithKnivesNeoForge {
         public static void registerPackets(RegisterPayloadHandlersEvent event) {
             event.registrar("1.0.0")
                     .playToClient(SyncTimestasisStateClientboundPacket.TYPE, SyncTimestasisStateClientboundPacket.STREAM_CODEC, (packet, context) -> packet.handle());
+        }
+
+        @SubscribeEvent
+        public static void modifyEntityAttributes(EntityAttributeModificationEvent event) {
+            for (var type : event.getTypes())
+                event.add(type, KillYoukaiAttributes.AIR_SPEED);
         }
 
         @SubscribeEvent

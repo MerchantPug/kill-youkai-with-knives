@@ -3,6 +3,7 @@ package net.merchantpug.killyoukaiwithknives;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.merchantpug.killyoukaiwithknives.attribute.KillYoukaiAttributes;
 import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEffectComponents;
 import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiArmorMaterials;
@@ -23,6 +24,7 @@ public class KillYoukaiWithKnivesFabric implements ModInitializer {
     }
 
     private static void registerContent() {
+        KillYoukaiAttributes.registerAll();
         KillYoukaiArmorMaterials.registerAll(Registry::registerForHolder);
         KillYoukaiEnchantmentEffectComponents.registerAll(Registry::register);
         KillYoukaiEntityTypes.registerAll(Registry::register);

@@ -7,6 +7,8 @@
   "mixins": [
     "AbstractArrowMixin",
     "EntityMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
     "ProjectileMixin",
     "accessor.AbstractArrowAccessor",
     "accessor.EnchantmentAccessor",

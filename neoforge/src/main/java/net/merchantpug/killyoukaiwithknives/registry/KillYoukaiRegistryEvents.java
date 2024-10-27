@@ -1,6 +1,7 @@
 package net.merchantpug.killyoukaiwithknives.registry;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
+import net.merchantpug.killyoukaiwithknives.attribute.KillYoukaiAttributes;
 import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEffectComponents;
 import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiArmorMaterials;
@@ -18,6 +19,9 @@ import java.util.function.Consumer;
 public class KillYoukaiRegistryEvents {
     @SubscribeEvent
     public static void registerContent(RegisterEvent event) {
+        if (event.getRegistryKey() == Registries.ATTRIBUTE)
+            KillYoukaiAttributes.registerAll();
+
         if (event.getRegistryKey() == Registries.ARMOR_MATERIAL) {
             registerHolders(KillYoukaiArmorMaterials::registerAll);
             KillYoukaiItems.registerAll(Registry::register);

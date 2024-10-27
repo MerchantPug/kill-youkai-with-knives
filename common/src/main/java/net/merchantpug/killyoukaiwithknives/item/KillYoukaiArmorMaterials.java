@@ -15,6 +15,7 @@ import java.util.Map;
 public class KillYoukaiArmorMaterials {
     public static Holder<ArmorMaterial> MAID;
 
+    // FIXME: Custom sound event.
     public static void registerAll(HolderRegistrationCallback<ArmorMaterial> callback) {
         MAID = callback.register(BuiltInRegistries.ARMOR_MATERIAL, KillYoukaiWithKnives.asResource("maid"), new ArmorMaterial(Map.of(), 0, SoundEvents.ARMOR_EQUIP_LEATHER, () -> Ingredient.of(Items.PHANTOM_MEMBRANE), List.of(new ArmorMaterial.Layer(KillYoukaiWithKnives.asResource("maid"))), 0.0F, 0.0F));
     }
