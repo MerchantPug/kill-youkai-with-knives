@@ -30,7 +30,7 @@ public class KillYoukaiEnchantments {
                         2,
                         EquipmentSlotGroup.HAND)
                 )
-                .withEffect(KillYoukaiEnchantmentEffectComponents.SUMMON_TIMESTASIS, new SummonTimestasisEffect(LevelBasedValue.constant(0.1F), LevelBasedValue.perLevel(5.0F, 3.0F), LevelBasedValue.perLevel(80, 40)))
+                .withEffect(KillYoukaiEnchantmentEffectComponents.SUMMON_TIMESTASIS, new SummonTimestasisEffect(LevelBasedValue.constant(0.25F), LevelBasedValue.constant(12.0F), LevelBasedValue.perLevel(120, 60)))
                 .build(TIMESTASIS.location());
         context.register(TIMESTASIS, timestasis);
     }

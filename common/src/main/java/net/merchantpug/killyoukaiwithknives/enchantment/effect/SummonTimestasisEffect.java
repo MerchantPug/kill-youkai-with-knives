@@ -14,6 +14,8 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
+import org.apache.commons.lang3.mutable.MutableObject;
+import org.jetbrains.annotations.Nullable;
 
 public record SummonTimestasisEffect(LevelBasedValue increasePerTick, LevelBasedValue maxScale, LevelBasedValue lifespan) {
     public static final Codec<SummonTimestasisEffect> CODEC = RecordCodecBuilder.create(inst -> inst.group(
@@ -22,9 +24,11 @@ public record SummonTimestasisEffect(LevelBasedValue increasePerTick, LevelBased
             LevelBasedValue.CODEC.fieldOf("lifespan").forGetter(SummonTimestasisEffect::lifespan)
     ).apply(inst, SummonTimestasisEffect::new));
 
-    public static void summonTimestasis(ServerLevel level, Projectile projectile, Entity target, DamageSource source) {
+    @Nullable
+    public static TimestasisEntity summonTimestasis(ServerLevel level, Projectile projectile, Entity target, DamageSource source) {
         if (projectile.getWeaponItem() == null)
-            return;
+            return null;
+        MutableObject<TimestasisEntity> finalEntity = new MutableObject<>();
         projectile.getWeaponItem().getEnchantments().entrySet().forEach((entry) -> {
             int enchantmentLevel = entry.getIntValue();
             LootContext context = Enchantment.damageContext(level, enchantmentLevel, target, source);
@@ -38,10 +42,12 @@ public record SummonTimestasisEffect(LevelBasedValue increasePerTick, LevelBased
                     entity.setIncreasePerTick(effect.increasePerTick.calculate(enchantmentLevel));
                     entity.setMaxSize(effect.maxScale.calculate(enchantmentLevel));
                     entity.setLifespan(entity.tickCount + (long)effect.lifespan.calculate(enchantmentLevel));
-                    entity.setPos(target.position().add(0, entity.getBbHeight() * 0.5, 0));
+                    entity.setPos(target.getBoundingBox().getCenter());
                     level.addFreshEntity(entity);
                 }
+                finalEntity.setValue(entity);
             });
         });
+        return finalEntity.getValue();
     }
 }

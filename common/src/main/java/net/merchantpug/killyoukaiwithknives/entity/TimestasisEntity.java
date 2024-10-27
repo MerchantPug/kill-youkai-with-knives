@@ -24,8 +24,8 @@ import java.util.*;
 
 public class TimestasisEntity extends Entity implements TraceableEntity {
     private static final EntityDataAccessor<Float> RADIUS = SynchedEntityData.defineId(TimestasisEntity.class, EntityDataSerializers.FLOAT);
-    private float increasePerTick = 0.1F;
-    private float maxSize = 8.0F;
+    private float increasePerTick = 0.25F;
+    private float maxSize = 12.0F;
     private long lifespan = 80;
     @Nullable
     private UUID ownerUUID;
@@ -45,7 +45,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(RADIUS, 0.0F);
+        builder.define(RADIUS, 3.0F);
     }
 
     @Override
@@ -85,7 +85,9 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         affectedEntities.forEach(this::modifyEntities);
 
 
-        if (getRadius() < maxSize) {
+        if (tickCount < 10) {
+            setRadius(Math.max(0, getRadius() - 0.3F));
+        } else if (getRadius() < maxSize) {
             setRadius(Math.min(getRadius() + increasePerTick, maxSize));
             setBoundingBox(AABB.ofSize(this.position(), getRadius(), getRadius(), getRadius()));
         }

@@ -12,12 +12,14 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class MagicKnifeEntity extends AbstractArrow {
@@ -36,9 +38,9 @@ public class MagicKnifeEntity extends AbstractArrow {
 
     @Override
     public void tick() {
-        super.tick();
         if (!level().getEntitiesOfClass(TimestasisEntity.class, getBoundingBox()).isEmpty())
             canCreateTimestasis = false;
+        super.tick();
     }
 
     @Override
@@ -78,9 +80,14 @@ public class MagicKnifeEntity extends AbstractArrow {
 
             if (this.level() instanceof ServerLevel serverLevel) {
                 EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damageSource, getWeaponItem());
-                if (canCreateTimestasis) {
-                    SummonTimestasisEffect.summonTimestasis(serverLevel, this, entity, damageSource);
-                    level().getEntitiesOfClass(MagicKnifeEntity.class, this.getBoundingBox().inflate(4.0F, 4.0F, 4.0F)).forEach(magicKnifeEntity -> magicKnifeEntity.affectedByTimestasis = false);
+                if (canCreateTimestasis && entity.isAlive() && level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).isEmpty()) {
+                    TimestasisEntity timestasis = SummonTimestasisEffect.summonTimestasis(serverLevel, this, entity, damageSource);
+                    if (timestasis == null)
+                        return;
+                    level().getEntitiesOfClass(MagicKnifeEntity.class, timestasis.getBoundingBox()).forEach(magicKnifeEntity -> {
+                        magicKnifeEntity.canCreateTimestasis = false;
+                        magicKnifeEntity.affectedByTimestasis = false;
+                    });
                 }
             }
 
@@ -102,6 +109,21 @@ public class MagicKnifeEntity extends AbstractArrow {
     @Override
     protected ItemStack getDefaultPickupItem() {
         return new ItemStack(KillYoukaiItems.MAGIC_KNIVES);
+    }
+
+
+    @Override
+    protected void doKnockback(LivingEntity entity, DamageSource damageSource) {
+        double d0 = getWeaponItem() != null && this.level() instanceof ServerLevel serverlevel
+                ? EnchantmentHelper.modifyKnockback(serverlevel, getWeaponItem(), entity, damageSource, 0.0F)
+                : 0.0F;
+        if (d0 > 0.0) {
+            double d1 = Math.max(0.0, 1.0 - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+            Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(d0 * 0.2 * d1);
+            if (vec3.lengthSqr() > 0.0) {
+                entity.push(vec3.x, 0.1, vec3.z);
+            }
+        }
     }
 
     @Override

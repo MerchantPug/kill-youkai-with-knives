@@ -7,16 +7,13 @@
     "killyoukaiwithknives:summon_timestasis": [
       {
         "effect": {
+          "increase_per_tick": 0.25,
           "lifespan": {
             "type": "minecraft:linear",
-            "base": 80.0,
-            "per_level_above_first": 40.0
+            "base": 120.0,
+            "per_level_above_first": 60.0
           },
-          "max_scale": {
-            "type": "minecraft:linear",
-            "base": 5.0,
-            "per_level_above_first": 3.0
-          }
+          "max_scale": 12.0
         }
       }
     ]

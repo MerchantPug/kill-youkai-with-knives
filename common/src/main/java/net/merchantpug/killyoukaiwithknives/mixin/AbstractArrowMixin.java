@@ -1,5 +1,7 @@
 package net.merchantpug.killyoukaiwithknives.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.merchantpug.killyoukaiwithknives.entity.MagicKnifeEntity;
 import net.merchantpug.killyoukaiwithknives.entity.TimestasisEntity;
 import net.minecraft.world.entity.EntityType;
@@ -20,8 +22,6 @@ public abstract class AbstractArrowMixin extends Projectile {
     @Unique
     @Nullable
     private Vec3 killyoukaiwithknives$previousDeltaMovement = null;
-    @Unique
-    private boolean killyoukaiwithknives$updateDelta = false;
 
     public AbstractArrowMixin(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -33,30 +33,23 @@ public abstract class AbstractArrowMixin extends Projectile {
             return;
 
         if (!level().getEntitiesOfClass(TimestasisEntity.class, getBoundingBox()).isEmpty()) {
-            if (killyoukaiwithknives$previousDeltaMovement == null)
+            if (killyoukaiwithknives$previousDeltaMovement == null) {
                 killyoukaiwithknives$previousDeltaMovement = getDeltaMovement();
-            setDeltaMovement(0, 0, 0);
-            yRotO = getYRot();
+            }
             xRotO = getXRot();
+            yRotO = getYRot();
+            setDeltaMovement(Vec3.ZERO);
             ci.cancel();
-        } else if (killyoukaiwithknives$previousDeltaMovement != null)
-            killyoukaiwithknives$updateDelta = true;
+        }
     }
 
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
-    private Vec3 killyoukaiwithknives$returnMovementToNormal(Vec3 original) {
-        if (killyoukaiwithknives$updateDelta) {
+    private Vec3 killyoukaiwithknives$returnMovementToNormal(Vec3 original, @Local float f) {
+        if (killyoukaiwithknives$previousDeltaMovement != null) {
             Vec3 deltaUpdate = killyoukaiwithknives$previousDeltaMovement;
             killyoukaiwithknives$previousDeltaMovement = null;
-            killyoukaiwithknives$updateDelta = false;
-            return deltaUpdate;
+            return deltaUpdate.scale(f);
         }
         return original;
-    }
-
-    @Inject(method = "startFalling", at = @At("HEAD"), cancellable = true)
-    private void killyoukaiwithknives$cancelFalling(CallbackInfo ci) {
-        if (killyoukaiwithknives$previousDeltaMovement != null)
-            ci.cancel();
     }
 }
