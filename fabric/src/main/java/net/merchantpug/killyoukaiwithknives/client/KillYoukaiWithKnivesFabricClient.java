@@ -4,7 +4,7 @@ import net.merchantpug.killyoukaiwithknives.client.model.MagicKnifeModel;
 import net.merchantpug.killyoukaiwithknives.client.renderer.MagicKnifeRenderer;
 import net.merchantpug.killyoukaiwithknives.client.renderer.TimestasisRenderer;
 import net.merchantpug.killyoukaiwithknives.client.util.TimestasisRenderUtil;
-import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiEntityTypes;
+import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;

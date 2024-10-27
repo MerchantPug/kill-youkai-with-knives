@@ -1,10 +1,8 @@
-package net.merchantpug.killyoukaiwithknives.registry;
+package net.merchantpug.killyoukaiwithknives.entity;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
-import net.merchantpug.killyoukaiwithknives.entity.MagicKnifeEntity;
-import net.merchantpug.killyoukaiwithknives.entity.TimestasisEntity;
 import net.merchantpug.killyoukaiwithknives.platform.Platform;
-import net.merchantpug.killyoukaiwithknives.registry.internal.RegistrationCallback;
+import net.merchantpug.killyoukaiwithknives.registry.RegistrationCallback;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

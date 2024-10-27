@@ -1,8 +1,8 @@
 package net.merchantpug.killyoukaiwithknives.registry;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
-import net.merchantpug.killyoukaiwithknives.registry.internal.HolderRegistrationCallback;
-import net.merchantpug.killyoukaiwithknives.registry.internal.RegistrationCallback;
+import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
+import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.minecraft.core.Registry;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

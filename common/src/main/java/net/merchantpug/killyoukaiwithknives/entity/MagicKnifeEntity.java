@@ -2,9 +2,8 @@ package net.merchantpug.killyoukaiwithknives.entity;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
 import net.merchantpug.killyoukaiwithknives.mixin.accessor.ProjectileAccessor;
-import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiEntityTypes;
-import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiItems;
-import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiDamageTypes;
+import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
+import net.merchantpug.killyoukaiwithknives.damage.KillYoukaiDamageTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -69,6 +68,7 @@ public class MagicKnifeEntity extends AbstractArrow {
 
             if (this.level() instanceof ServerLevel serverLevel) {
                 EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, damageSource, getWeaponItem());
+                // TODO: Timestasis enchantment.
             }
 
             if (entity instanceof LivingEntity livingentity) {
@@ -77,7 +77,7 @@ public class MagicKnifeEntity extends AbstractArrow {
             }
         }
 
-        setDeltaMovement(getDeltaMovement().multiply(-0.01, -0.1, -0.01));
+        discard();
         playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
     }
 

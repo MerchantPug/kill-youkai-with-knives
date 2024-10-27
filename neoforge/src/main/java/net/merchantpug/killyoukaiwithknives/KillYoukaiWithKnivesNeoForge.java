@@ -3,7 +3,6 @@ package net.merchantpug.killyoukaiwithknives;
 
 import net.merchantpug.killyoukaiwithknives.platform.KillYoukaiWithKnivesPlatformHelperNeoForge;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiAttachments;
-import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.bus.api.IEventBus;

@@ -1,4 +1,4 @@
-package net.merchantpug.killyoukaiwithknives.registry.internal;
+package net.merchantpug.killyoukaiwithknives.registry;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

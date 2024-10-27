@@ -1,7 +1,6 @@
 package net.merchantpug.killyoukaiwithknives.registry;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
-import net.merchantpug.killyoukaiwithknives.registry.internal.RegistrationCallback;
 import net.minecraft.core.UUIDUtil;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;

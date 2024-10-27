@@ -2,7 +2,7 @@ package net.merchantpug.killyoukaiwithknives.mixin.fabric;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiAttachments;
-import net.merchantpug.killyoukaiwithknives.registry.KillYoukaiTags;
+import net.merchantpug.killyoukaiwithknives.KillYoukaiTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
