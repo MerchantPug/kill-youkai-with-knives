@@ -14,7 +14,6 @@ import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
@@ -31,11 +30,12 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
     private UUID ownerUUID;
     @Nullable
     private Entity cachedOwner;
-    private List<Entity> affectedEntities = new ArrayList<>();
 
     public static final Map<Holder<Attribute>, AttributeModifier> ATTRIBUTE_MAP = Map.of(
             Attributes.MOVEMENT_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.movement_speed"), -0.6, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
-            Attributes.ATTACK_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.attack_speed"), -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+            Attributes.ATTACK_SPEED, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.attack_speed"), -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+            Attributes.GRAVITY, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.gravity"), -0.4, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+            Attributes.JUMP_STRENGTH, new AttributeModifier(KillYoukaiWithKnives.asResource("timestasis.jump_strength"), -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
     );
 
     public TimestasisEntity(EntityType<TimestasisEntity> entityType, Level level) {
