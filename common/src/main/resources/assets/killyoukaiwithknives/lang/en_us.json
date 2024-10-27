@@ -16,5 +16,5 @@
   "enchantment.killyoukaiwithknives.scavenge": "Scavenge",
   "enchantment.killyoukaiwithknives.scavenge.desc": "Allows you to pick up your knives to regain durability.",
   "enchantment.killyoukaiwithknives.timecollection": "Timecollection",
-  "enchantment.killyoukaiwithknives.timecollection.desc": "Returns your knives to you after some time, which regains your durability."
+  "enchantment.killyoukaiwithknives.timecollection.desc": "Returns your knives to you after some time, replenishing durability."
 }
