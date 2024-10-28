@@ -13,6 +13,7 @@ public class KillYoukaiTags {
     }
 
     public static class Enchantments {
+        public static final TagKey<Enchantment> IN_KITCHEN = TagKey.create(Registries.ENCHANTMENT, KillYoukaiWithKnives.asResource("in_kitchen"));
         public static final TagKey<Enchantment> MAGIC_KNIVES_EXCLUSIVE = TagKey.create(Registries.ENCHANTMENT, KillYoukaiWithKnives.asResource("exclusive_set/magic_knives"));
     }
 
