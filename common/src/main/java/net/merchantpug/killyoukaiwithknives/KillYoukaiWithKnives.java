@@ -9,6 +9,7 @@ public class KillYoukaiWithKnives {
     public static final String MOD_ID = "killyoukaiwithknives";
     public static final String MOD_NAME = "Kill Youkai With Knives";
     public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
+    public static boolean hasGeneratedKitchen = false;
 
     private static KillYoukaiWithKnivesPlatformHelper helper;
 

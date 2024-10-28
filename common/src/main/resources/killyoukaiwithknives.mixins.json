@@ -10,8 +10,14 @@
     "LivingEntityMixin",
     "PlayerMixin",
     "ProjectileMixin",
+    "TemplateStructurePieceMixin",
+    "WoodlandMansionPiecesFirstFloorRoomCollectionMixin",
+    "WoodlandMansionPiecesMixin",
+    "WoodlandMansionPiecesSecondFloorRoomCollectionMixin",
+    "WoodlandMansionPiecesWoodlandMansionPieceMixin",
     "accessor.AbstractArrowAccessor",
     "accessor.EnchantmentAccessor",
+    "accessor.ItemFrameAccessor",
     "accessor.ProjectileAccessor"
   ],
   "client": [
