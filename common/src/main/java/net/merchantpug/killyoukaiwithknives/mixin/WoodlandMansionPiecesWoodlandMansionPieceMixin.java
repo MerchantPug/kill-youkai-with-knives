@@ -45,6 +45,7 @@ public abstract class WoodlandMansionPiecesWoodlandMansionPieceMixin extends Tem
     private void killyoukaiwithknives$addMaidArmorStands(String name, BlockPos pos, ServerLevelAccessor level, RandomSource random, BoundingBox box, CallbackInfo ci) {
         if (name.startsWith("Kill Youkai With Knives")) {
             Rotation rotation = placeSettings.getRotation();
+            // Correct rotations.
             switch (name) {
                 case "Kill Youkai With Knives Maid Armor Stand West" -> {
                     ArmorStand armorStand = EntityType.ARMOR_STAND.create(level.getLevel());
@@ -53,7 +54,7 @@ public abstract class WoodlandMansionPiecesWoodlandMansionPieceMixin extends Tem
                         armorStand.setItemSlot(EquipmentSlot.CHEST, new ItemStack(KillYoukaiItems.MAID_DRESS));
                         armorStand.setItemSlot(EquipmentSlot.LEGS, new ItemStack(KillYoukaiItems.MAID_LEGGINGS));
                         armorStand.setItemSlot(EquipmentSlot.FEET, new ItemStack(KillYoukaiItems.MAID_BOOTS));
-                        armorStand.moveTo(pos, RotationSegment.convertToDegrees(rotation.rotate(4,16)), 0.0F);
+                        armorStand.moveTo(pos, RotationSegment.convertToDegrees(rotation.rotate(RotationSegment.convertToSegment(90.0F),16)), 0.0F);
                         level.addFreshEntityWithPassengers(armorStand);
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
                         ci.cancel();
@@ -66,7 +67,7 @@ public abstract class WoodlandMansionPiecesWoodlandMansionPieceMixin extends Tem
                         armorStand.setItemSlot(EquipmentSlot.CHEST, new ItemStack(KillYoukaiItems.MAID_DRESS));
                         armorStand.setItemSlot(EquipmentSlot.LEGS, new ItemStack(KillYoukaiItems.MAID_LEGGINGS));
                         armorStand.setItemSlot(EquipmentSlot.FEET, new ItemStack(KillYoukaiItems.MAID_BOOTS));
-                        armorStand.moveTo(pos, RotationSegment.convertToDegrees(rotation.rotate(6,16)), 0.0F);
+                        armorStand.moveTo(pos, RotationSegment.convertToDegrees(rotation.rotate(RotationSegment.convertToSegment(135.0F),16)), 0.0F);
                         level.addFreshEntityWithPassengers(armorStand);
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
                         ci.cancel();
@@ -76,8 +77,8 @@ public abstract class WoodlandMansionPiecesWoodlandMansionPieceMixin extends Tem
                     ItemFrame frame = new ItemFrame(level.getLevel(), pos, Direction.UP);
                     // Don't update neighbors otherwise the game will have a chance to hang. Fun.
                     frame.setItem(new ItemStack(KillYoukaiItems.MAGIC_KNIVES), false);
-                    frame.moveTo(pos, RotationSegment.convertToDegrees(rotation.rotate(0,16)), -90.0F);
-                    ((ItemFrameAccessor)frame).killyoukaiwithknives$invokeSetRotation(rotation.rotate(4,8), false);
+                    frame.moveTo(pos, RotationSegment.convertToDegrees(rotation.rotate(RotationSegment.convertToSegment(0.0F),16)), -90.0F);
+                    ((ItemFrameAccessor)frame).killyoukaiwithknives$invokeSetRotation(rotation.rotate(0,8), false);
                     level.addFreshEntityWithPassengers(frame);
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
                     ci.cancel();
