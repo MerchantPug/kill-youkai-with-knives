@@ -7,7 +7,7 @@ object Properties {
     const val MOD_ID = "killyoukaiwithknives"
     const val MOD_AUTHOR = "MerchantPug"
     val MOD_CONTRIBUTORS = listOf("Kneelawk")
-    const val DESCRIPTION = "Adds a timestopping pocket watch that summons magical knives."
+    const val DESCRIPTION = "Adds magic throwing knives with timestasis capabilities, inspired by The Touhou Project!"
     const val LICENSE = "MPL-2.0"
 
     const val MODRINTH_PAGE = "https://modrinth.com/mod/kill-youkai-with-knives"
