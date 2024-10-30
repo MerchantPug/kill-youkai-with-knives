@@ -104,7 +104,7 @@ tasks {
         "neoforge_minecraft_version_range" to Versions.NEOFORGE_MINECRAFT_RANGE,
         "neoforge_loader_version_range" to Versions.NEOFORGE_LOADER_RANGE,
         "java_version" to Versions.JAVA,
-        "homepage" to Properties.HOMEPAGE,
+        "modrinth_page" to Properties.MODRINTH_PAGE,
         "sources" to Properties.GITHUB_REPO
     )
 

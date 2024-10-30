@@ -10,10 +10,8 @@ object Properties {
     const val DESCRIPTION = "Adds a timestopping pocket watch that summons magical knives."
     const val LICENSE = "MPL-2.0"
 
-    const val HOMEPAGE = "https://modrinth.com/project/kill-youkai-with-knives"
-    const val CURSEFORGE_PROJECT_ID = "000000"
-    const val CURSEFORGE_PAGE = "https://www.curseforge.com/minecraft/mc-mods/kill-youkai-with-knives"
-    const val MODRINTH_PROJECT_ID = "????????"
+    const val MODRINTH_PAGE = "https://modrinth.com/mod/kill-youkai-with-knives"
+    const val MODRINTH_PROJECT_ID = "4OYPLELG"
     const val GITHUB_REPO = "MerchantPug/kill-youkai-with-knives"
     const val GITHUB_COMMITISH = "1.21"
 }
