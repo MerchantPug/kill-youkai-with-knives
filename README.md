@@ -1,24 +1,21 @@
-# Greenhouse Multiloader Template
-This is a version of the Multiloader Template that is tailored towards Greenhouse's mods.
+# Kill Youkai With Knives!
+Available on the [NeoForge](https://neoforged.net/) and [Fabric](https://fabricmc.net/) modloaders!
 
-## Swapping Versions
-Versions and properties are not within gradle.properties. This is because Kotlin DSL does not play nicely with gradle.properties.
-Versions are contained within `buildSrc/src/main/kotlin/dev/greenhouseteam/examplemod/gradle/Versions.kt`.
-Properties are contained within `buildSrc/src/main/kotlin/dev/greenhouseteam/examplemod/gradle/Properties.kt`.
+Kill Youkai With Knives is a mod that adds a brand new weapon to the game, The Magic Knives. These can be found within a new room inside Woodland Mansions.
 
-It is ideal to change any mention of `examplemod` within the codebase when creating from this template.
+## Features!
+- 🔪 Magic Knives that can be thrown, using up durability in the process.
+- 🔖 4 new Enchantments for the Magic Knives!
+  - 🕔 Timestasis (Max Level: II). Creates an area where time is slowed down upon hitting an entity.
+  - ↪️ Scatter (Max Level: III). Throws additional and scatters knives from the applied item.
+  - 🫳 Scavenge (Max Level: I). Allows you to pick up your knives to regain durability.
+  - 📮 Timecollection (Treasure, Max Level: I). Returns your knives to you after some time, replenishing durability.
+- 👗 Maid Clothes based on Sakuya Izayoi from The Touhou Project. Can be found alongside the knives.
+- ⛩️ A new room within the Woodland Mansion. What surprises await?
 
-## Changes from MLT
-The main changes from the Multiloader Template, which we have forked are:
-- Uses Kotlin DSL instead of Groovy DSL.
-- Rewrites to expanded properties, to fit loader conventions and create less overhead.
-- Removal of access transformer file from Fabric's build and refmap line in common mixins.json for NeoForge.
-- Platform Helpers are done without services, instead being added to the common class within Fabric pre-launch and NeoForge init.
-  - This must be done in pre-launch on Fabric due to random load order for mods. Otherwise the game may crash if a mod depends on the helper.
-- Cut down on a few classes.
-- Set up client mixins from the example in the `mixin.client` package, following convention for Greenhouse mixins.
-- Modmuss' mod publish plugin is set up for both loaders. For CurseForge, Modrinth and GitHub.
-  - Feel free to remove any of these, you may desire GitHub only if the mod is supposed to be an internal library
-  - You can run this with `publishMods`. Just make sure tokens are set up.
+# QnA
+## Port to newer versions of the game?
+I feel this mod is a one time deal, I'd prefer to not have to worry about continual maintenance for what's supposed to be a fun little mod to rekindle my enjoyment of ModFest.
 
-# Remember to change this README for any projects!
+## Backport?
+Same as above, plus I really don't enjoy working with pre 1.21 anymore.
