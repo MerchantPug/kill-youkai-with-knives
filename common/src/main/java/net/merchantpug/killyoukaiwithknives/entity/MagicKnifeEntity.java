@@ -7,9 +7,9 @@ import net.merchantpug.killyoukaiwithknives.mixin.accessor.AbstractArrowAccessor
 import net.merchantpug.killyoukaiwithknives.mixin.accessor.ProjectileAccessor;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.merchantpug.killyoukaiwithknives.damage.KillYoukaiDamageTypes;
+import net.merchantpug.killyoukaiwithknives.sound.KillYoukaiSoundEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -147,8 +147,7 @@ public class MagicKnifeEntity extends AbstractArrow {
         }
 
         discard();
-        // FIXME: Sounds
-        playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
+        playSound(KillYoukaiSoundEvents.MAGIC_KNIVES_HIT.value(), 0.5F, 1.2F);
     }
 
     @Override
@@ -177,8 +176,7 @@ public class MagicKnifeEntity extends AbstractArrow {
 
     @Override
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
-        // FIXME: Sounds
-        return SoundEvents.TRIDENT_HIT_GROUND;
+        return KillYoukaiSoundEvents.MAGIC_KNIVES_HIT.value();
     }
 
     @Override

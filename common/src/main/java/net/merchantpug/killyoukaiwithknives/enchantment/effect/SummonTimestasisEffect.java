@@ -6,6 +6,7 @@ import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEff
 import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.entity.TimestasisEntity;
 import net.merchantpug.killyoukaiwithknives.mixin.accessor.EnchantmentAccessor;
+import net.merchantpug.killyoukaiwithknives.sound.KillYoukaiSoundEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -48,6 +49,8 @@ public record SummonTimestasisEffect(LevelBasedValue increasePerTick, LevelBased
                 finalEntity.setValue(entity);
             });
         });
+        if (finalEntity.getValue() != null)
+            level.playSound(null, projectile.getX(), projectile.getY(), projectile.getZ(), KillYoukaiSoundEvents.MAGIC_KNIVES_TIMESTASIS.value(), source.getDirectEntity() != null ? source.getDirectEntity().getSoundSource() : projectile.getSoundSource(), 1.0F, 1.0F);
         return finalEntity.getValue();
     }
 }

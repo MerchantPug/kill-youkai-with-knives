@@ -6,6 +6,7 @@ import net.merchantpug.killyoukaiwithknives.enchantment.KillYoukaiEnchantmentEff
 import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiArmorMaterials;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
+import net.merchantpug.killyoukaiwithknives.sound.KillYoukaiSoundEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,6 +24,7 @@ public class KillYoukaiRegistryEvents {
             KillYoukaiAttributes.registerAll();
 
         if (event.getRegistryKey() == Registries.ARMOR_MATERIAL) {
+            KillYoukaiSoundEvents.registerAll();
             registerHolders(KillYoukaiArmorMaterials::registerAll);
             KillYoukaiItems.registerAll(Registry::register);
         }

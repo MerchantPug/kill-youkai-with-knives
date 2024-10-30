@@ -9,6 +9,7 @@ import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiArmorMaterials;
 import net.merchantpug.killyoukaiwithknives.item.KillYoukaiItems;
 import net.merchantpug.killyoukaiwithknives.network.clientbound.SyncTimestasisStateClientboundPacket;
+import net.merchantpug.killyoukaiwithknives.sound.KillYoukaiSoundEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
@@ -25,6 +26,7 @@ public class KillYoukaiWithKnivesFabric implements ModInitializer {
 
     private static void registerContent() {
         KillYoukaiAttributes.registerAll();
+        KillYoukaiSoundEvents.registerAll();
         KillYoukaiArmorMaterials.registerAll(Registry::registerForHolder);
         KillYoukaiEnchantmentEffectComponents.registerAll(Registry::register);
         KillYoukaiEntityTypes.registerAll(Registry::register);

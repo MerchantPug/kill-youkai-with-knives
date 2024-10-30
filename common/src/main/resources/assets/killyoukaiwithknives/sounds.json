@@ -1,0 +1,40 @@
+{
+  "item.magic_knives.timestasis": {
+    "sounds": [
+      "killyoukaiwithknives:item/magic_knives/timestasis"
+    ],
+    "subtitle": "subtitles.item.killyoukaiwithknives.magic_knives.timestasis"
+  },
+  "item.magic_knives.timereturn": {
+    "sounds": [
+      "killyoukaiwithknives:item/magic_knives/timereturn"
+    ],
+    "subtitle": "subtitles.item.killyoukaiwithknives.magic_knives.timereturn"
+  },
+  "item.magic_knives.hit": {
+    "sounds": [
+      "item/trident/pierce1",
+      "item/trident/pierce2",
+      "item/trident/pierce3"
+    ],
+    "subtitle": "subtitles.item.killyoukaiwithknives.magic_knives.hit"
+  },
+  "item.magic_knives.throw": {
+    "sounds": [
+      "item/trident/throw1",
+      "item/trident/throw2"
+    ],
+    "subtitle": "subtitles.item.killyoukaiwithknives.magic_knives.throw"
+  },
+  "item.armor.equip_maid": {
+    "sounds": [
+      "item/armor/equip_leather1",
+      "item/armor/equip_leather2",
+      "item/armor/equip_leather3",
+      "item/armor/equip_leather4",
+      "item/armor/equip_leather5",
+      "item/armor/equip_leather6"
+    ],
+    "subtitle": "subtitles.item.armor.killyoukaiwithknives.equip_maid"
+  }
+}

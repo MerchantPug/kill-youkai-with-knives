@@ -2,6 +2,7 @@ package net.merchantpug.killyoukaiwithknives.item;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiTags;
 import net.merchantpug.killyoukaiwithknives.entity.MagicKnifeEntity;
+import net.merchantpug.killyoukaiwithknives.sound.KillYoukaiSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -85,8 +86,7 @@ public class MagicKnivesItem extends ProjectileWeaponItem {
             }
 
             shoot(serverLevel, player, player.getUsedItemHand(), stack, stacks, 2.0F, 8.0F, false, null);
-            // FIXME: Change sound!
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, level.getRandom().nextFloat() * 0.4F + 1.0F);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), KillYoukaiSoundEvents.MAGIC_KNIVES_THROW, SoundSource.PLAYERS, 1.0F, level.getRandom().nextFloat() * 0.4F + 1.0F);
             player.awardStat(Stats.ITEM_USED.get(this));
             player.getCooldowns().addCooldown(this, 20);
         }

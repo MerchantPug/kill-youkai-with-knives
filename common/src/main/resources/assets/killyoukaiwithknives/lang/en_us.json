@@ -16,5 +16,11 @@
   "enchantment.killyoukaiwithknives.scavenge": "Scavenge",
   "enchantment.killyoukaiwithknives.scavenge.desc": "Allows you to pick up your knives to regain durability.",
   "enchantment.killyoukaiwithknives.timecollection": "Timecollection",
-  "enchantment.killyoukaiwithknives.timecollection.desc": "Returns your knives to you after some time, replenishing durability."
+  "enchantment.killyoukaiwithknives.timecollection.desc": "Returns your knives to you after some time, replenishing durability.",
+
+  "subtitles.item.killyoukaiwithknives.magic_knives.timestasis": "Timestasis starts",
+  "subtitles.item.killyoukaiwithknives.magic_knives.timereturn": "Timestasis stops",
+  "subtitles.item.killyoukaiwithknives.magic_knives.hit": "Magic Knife stabs",
+  "subtitles.item.killyoukaiwithknives.magic_knives.throw": "Magic Knives travel",
+  "subtitles.item.armor.killyoukaiwithknives.equip_maid": "Maid clothes rustle"
 }

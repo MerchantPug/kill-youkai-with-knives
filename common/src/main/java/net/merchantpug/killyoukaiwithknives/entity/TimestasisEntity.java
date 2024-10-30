@@ -2,6 +2,7 @@ package net.merchantpug.killyoukaiwithknives.entity;
 
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
 import net.merchantpug.killyoukaiwithknives.attribute.KillYoukaiAttributes;
+import net.merchantpug.killyoukaiwithknives.sound.KillYoukaiSoundEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -77,6 +78,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         if (level().isClientSide)
             return;
         if (tickCount > lifespan) {
+            level().playSound(null, getX(), getY(), getZ(), KillYoukaiSoundEvents.MAGIC_KNIVES_TIMERETURN.value(), getOwner() != null ? getOwner().getSoundSource() : getSoundSource(), 1.0F, 1.0F);
             discard();
             return;
         }
