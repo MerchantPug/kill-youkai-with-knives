@@ -2,7 +2,6 @@ package net.merchantpug.killyoukaiwithknives.client;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
-import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
 import net.merchantpug.killyoukaiwithknives.client.model.MagicKnifeModel;
 import net.merchantpug.killyoukaiwithknives.client.renderer.MagicKnifeRenderer;
 import net.merchantpug.killyoukaiwithknives.client.renderer.MaidArmorRenderer;

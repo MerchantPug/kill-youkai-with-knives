@@ -8,6 +8,7 @@
     "AbstractArrowMixin",
     "EntityMixin",
     "LivingEntityMixin",
+    "PistonStructureResolverMixin",
     "PlayerMixin",
     "ProjectileMixin",
     "TemplateStructurePieceMixin",
