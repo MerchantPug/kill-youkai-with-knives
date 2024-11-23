@@ -15,8 +15,6 @@ public class KillYoukaiWithKnives {
     public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
     public static boolean hasGeneratedKitchen = false;
 
-    public static final Map<BlockPos, Integer> DELAYED_PISTONS = new HashMap<>();
-
     private static KillYoukaiWithKnivesPlatformHelper helper;
 
     public static void init() {

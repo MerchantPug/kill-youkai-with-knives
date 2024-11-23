@@ -87,7 +87,6 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
             setRadius(Math.max(0, getRadius() - 1.0F));
         } else if (getRadius() < maxSize) {
             setRadius(Math.min(getRadius() + increasePerTick, maxSize));
-            setBoundingBox(AABB.ofSize(this.position(), getRadius(), getRadius(), getRadius()));
         }
     }
 
@@ -164,6 +163,10 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
         this.maxSize = maxSize;
     }
 
+    public long getLifespan() {
+        return lifespan;
+    }
+
     public void setLifespan(long lifespan) {
         this.lifespan = lifespan;
     }
@@ -185,5 +188,23 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
 
     public boolean isIgnoringBlockTriggers() {
         return true;
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        if (RADIUS.equals(key))
+            refreshDimensions();
+
+        super.onSyncedDataUpdated(key);
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        return EntityDimensions.scalable(getRadius(), getRadius());
+    }
+
+    @Override
+    protected AABB makeBoundingBox() {
+        return this.getDimensions(Pose.STANDING).makeBoundingBox(position().add(0, -getRadius() / 2, 0));
     }
 }

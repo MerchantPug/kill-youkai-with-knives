@@ -42,7 +42,5 @@ public class KillYoukaiWithKnivesFabric implements ModInitializer {
             entries.addAfter(Items.MACE, KillYoukaiItems.MAGIC_KNIVES);
             entries.addAfter(Items.TURTLE_HELMET, KillYoukaiItems.MAID_BONNET, KillYoukaiItems.MAID_DRESS, KillYoukaiItems.MAID_LEGGINGS, KillYoukaiItems.MAID_BOOTS);
         });
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
-        });
     }
 }

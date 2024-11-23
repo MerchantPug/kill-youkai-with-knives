@@ -2,6 +2,8 @@ package net.merchantpug.killyoukaiwithknives.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.merchantpug.killyoukaiwithknives.KillYoukaiWithKnives;
+import net.merchantpug.killyoukaiwithknives.util.EntityGetter;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
@@ -19,7 +21,7 @@ public abstract class EntityMixin {
 
     @ModifyReturnValue(method = "getDeltaMovement", at = @At("RETURN"))
     private Vec3 killyoukaiwithknives$cancelProjectileDeltaMovementInTimestasis(Vec3 original) {
-        if ((Entity)(Object)this instanceof Projectile && KillYoukaiWithKnives.getHelper().isTimestasised((Entity)(Object)this))
+        if (((Entity)(Object)this instanceof Projectile && KillYoukaiWithKnives.getHelper().isTimestasised((Entity)(Object)this)))
             return Vec3.ZERO;
         return original;
     }

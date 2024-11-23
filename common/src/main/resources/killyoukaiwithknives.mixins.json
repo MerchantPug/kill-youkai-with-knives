@@ -6,9 +6,12 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractArrowMixin",
+    "BlockBehaviourBlockStateBaseMixin",
+    "DiodeBlockMixin",
     "EntityMixin",
+    "FluidStateMixin",
+    "LiquidBlockMixin",
     "LivingEntityMixin",
-    "PistonStructureResolverMixin",
     "PlayerMixin",
     "ProjectileMixin",
     "TemplateStructurePieceMixin",

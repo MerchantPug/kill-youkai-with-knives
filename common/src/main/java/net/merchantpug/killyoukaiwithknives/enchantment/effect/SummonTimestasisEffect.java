@@ -7,6 +7,7 @@ import net.merchantpug.killyoukaiwithknives.entity.KillYoukaiEntityTypes;
 import net.merchantpug.killyoukaiwithknives.entity.TimestasisEntity;
 import net.merchantpug.killyoukaiwithknives.mixin.accessor.EnchantmentAccessor;
 import net.merchantpug.killyoukaiwithknives.sound.KillYoukaiSoundEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -27,7 +28,7 @@ public record SummonTimestasisEffect(LevelBasedValue increasePerTick, LevelBased
 
     @Nullable
     public static TimestasisEntity summonTimestasis(ServerLevel level, Projectile projectile, Entity target, DamageSource source) {
-        if (projectile.getWeaponItem() == null)
+        if (projectile.getWeaponItem() == null || !level.getFluidState(BlockPos.containing(target.getBoundingBox().getCenter())).isEmpty())
             return null;
         MutableObject<TimestasisEntity> finalEntity = new MutableObject<>();
         projectile.getWeaponItem().getEnchantments().entrySet().forEach((entry) -> {

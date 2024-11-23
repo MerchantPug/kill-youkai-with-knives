@@ -26,7 +26,7 @@ public class MagicKnifeModel extends EntityModel<MagicKnifeEntity> {
 		partdefinition.addOrReplaceChild("main", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, 0.0F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 2).addBox(-2.0F, 0.0F, -0.5F, 6.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 0.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 16, 8);
+		return LayerDefinition.create(meshdefinition, 16, 16);
 	}
 
 	@Override
