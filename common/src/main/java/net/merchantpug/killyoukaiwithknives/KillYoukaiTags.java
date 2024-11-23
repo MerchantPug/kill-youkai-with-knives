@@ -5,8 +5,15 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.block.Block;
 
 public class KillYoukaiTags {
+    public static class Blocks {
+        /**
+         * If specified, timestasis will only deactivate redstone that is sitting on these blocks.
+         */
+        public static final TagKey<Block> TIMESTASIS_REDSTONE_DEACTIVATORS = TagKey.create(Registries.BLOCK, KillYoukaiWithKnives.asResource("timestasis_redstone_deactivators"));
+    }
 
     public static class DamageTypes {
         public static final TagKey<DamageType> KNIVES_BYPASS_COOLDOWN_AFTER = TagKey.create(Registries.DAMAGE_TYPE, KillYoukaiWithKnives.asResource("knives_bypass_cooldown_after"));

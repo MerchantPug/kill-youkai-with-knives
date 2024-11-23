@@ -1,13 +1,9 @@
 package net.merchantpug.killyoukaiwithknives;
 
 import net.merchantpug.killyoukaiwithknives.platform.KillYoukaiWithKnivesPlatformHelper;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class KillYoukaiWithKnives {
     public static final String MOD_ID = "killyoukaiwithknives";
