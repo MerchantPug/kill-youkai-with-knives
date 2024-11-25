@@ -23,8 +23,8 @@ public abstract class BlockBehaviourBlockStateBaseMixin {
         if (
                 level instanceof Level lvl &&
                         !EntityGetter.getTimestasisEntities(lvl, pos).isEmpty() &&
-                        (context instanceof EntityCollisionContext collisionContext && collisionContext.getEntity() != null && !collisionContext.getEntity().isInWaterOrBubble()) &&
-                        !FluidShapeUtil.getFluidState(lvl, pos).isEmpty()
+                        !FluidShapeUtil.getFluidState(lvl, pos).isEmpty() &&
+                        (context instanceof EntityCollisionContext collisionContext && collisionContext.getEntity() != null && FluidShapeUtil.getFluidState(lvl, pos).getTags().noneMatch(tag -> collisionContext.getEntity().getFluidHeight(tag) > 0.1))
         )
             return Shapes.join(FluidShapeUtil.VOXEL_SHAPES[Mth.clamp(FluidShapeUtil.getFluidState(lvl, pos).getAmount(), 0, 16)], original, BooleanOp.OR);
         return original;

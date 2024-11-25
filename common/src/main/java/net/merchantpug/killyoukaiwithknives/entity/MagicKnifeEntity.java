@@ -17,6 +17,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Unit;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -47,6 +48,7 @@ public class MagicKnifeEntity extends AbstractArrow {
     private boolean hasHitOwner = false;
     private boolean canCreateTimestasis = true;
     public boolean affectedByTimestasis = true;
+    private boolean persistent = false;
 
     public MagicKnifeEntity(EntityType<MagicKnifeEntity> entityType, Level level) {
         super(entityType, level);
@@ -69,6 +71,7 @@ public class MagicKnifeEntity extends AbstractArrow {
         hasHitOwner = tag.getBoolean("has_hit_owner");
         canCreateTimestasis = tag.getBoolean("can_create_timestasis");
         affectedByTimestasis = tag.getBoolean("affected_by_timestasis");
+        persistent = tag.getBoolean("persistent");
     }
 
     @Override
@@ -76,6 +79,7 @@ public class MagicKnifeEntity extends AbstractArrow {
         tag.putBoolean("has_hit_owner", hasHitOwner);
         tag.putBoolean("can_create_timestasis", canCreateTimestasis);
         tag.putBoolean("affected_by_timestasis", affectedByTimestasis);
+        tag.putBoolean("persistent", persistent);
     }
 
     @Override
@@ -84,8 +88,14 @@ public class MagicKnifeEntity extends AbstractArrow {
             canCreateTimestasis = false;
         super.tick();
 
-        if (!level().isClientSide() && getOwner() instanceof LivingEntity living && hasUnitComponent(getWeaponItem(), living, (ServerLevel)level(), KillYoukaiEnchantmentEffectComponents.AUTOMATIC_SCAVENGE) && ((AbstractArrowAccessor)this).killyoukaiwithknives$getLife() > 400)
-            tryRepairKnivesInInventory(living);
+        if (getFluidHeight(FluidTags.LAVA) > 0.2)
+            discard();
+
+        if (((AbstractArrowAccessor)this).killyoukaiwithknives$getLife() > 120 && !persistent) {
+            if (!level().isClientSide() && getOwner() instanceof LivingEntity living && hasUnitComponent(getWeaponItem(), living, (ServerLevel) level(), KillYoukaiEnchantmentEffectComponents.AUTOMATIC_SCAVENGE))
+                tryRepairKnivesInInventory(living);
+            discard();
+        }
     }
 
     public boolean isFoil() {
