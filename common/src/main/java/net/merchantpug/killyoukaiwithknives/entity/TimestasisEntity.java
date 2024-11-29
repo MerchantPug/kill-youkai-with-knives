@@ -96,7 +96,7 @@ public class TimestasisEntity extends Entity implements TraceableEntity {
                 TimestasisEntity.removeEntityEffects(entity);
             return;
         }
-        List<TimestasisEntity> timestasisEntities = entity.level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).stream().filter(e -> (e.getOwner() == null || !entity.is(e.getOwner()) && (entity.getTeam() != null && e.getOwner().getTeam() != null && entity.getTeam() == e.getOwner().getTeam() && !entity.getTeam().isAllowFriendlyFire()) && (!(entity instanceof TamableAnimal tamable) || tamable.getOwner() == null || !tamable.getOwner().is(e.getOwner())))).toList();
+        List<TimestasisEntity> timestasisEntities = entity.level().getEntitiesOfClass(TimestasisEntity.class, entity.getBoundingBox()).stream().filter(e -> (e.getOwner() == null || !entity.is(e.getOwner()) && (entity.getTeam() == null || e.getOwner().getTeam() == null || entity.getTeam() != e.getOwner().getTeam() || !entity.getTeam().isAllowFriendlyFire()) && (!(entity instanceof TamableAnimal tamable) || tamable.getOwner() == null || !tamable.getOwner().is(e.getOwner())))).toList();
 
         if (!timestasisEntities.isEmpty() && !KillYoukaiWithKnives.getHelper().isTimestasised(entity))
             TimestasisEntity.addEntityEffects(entity);
